@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="neet.code.flashwear">
+
+    <application
+        android:name=".FlashWearApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.FlashWear">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.FlashWear">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+<!--        <service-->
+<!--            android:name=".provider.IncrementingNumberComplicationProviderService"-->
+<!--            android:icon="@drawable/icn_complications"-->
+<!--            android:label="@string/complications_provider_incrementing_number"-->
+<!--            android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action-->
+<!--                    android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST"/>-->
+<!--            </intent-filter>-->
+<!--        </service>-->
+
+    </application>
+
+</manifest>
