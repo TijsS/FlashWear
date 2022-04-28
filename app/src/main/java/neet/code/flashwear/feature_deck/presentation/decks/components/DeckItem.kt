@@ -1,25 +1,23 @@
 package neet.code.flashwear.feature_deck.presentation.decks.components
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import neet.code.flashwear.feature_deck.domain.model.Deck
+import neet.code.flashwear.R
 import neet.code.flashwear.Screen
+import neet.code.flashwear.feature_deck.domain.model.Deck
 import neet.code.flashwear.feature_deck.presentation.decks.DeckViewModel
-import neet.code.flashwear.feature_deck.presentation.view_deck.ViewDeckViewModel
 
 @Composable
 
@@ -45,7 +43,7 @@ fun DeckItem(navController: NavController, deck: Deck, viewModel: DeckViewModel 
 
                 viewModel.deckState.value.averageScoreOfDecks[deck.id]?.let {
                     LinearProgressIndicator(
-                        progress = it,
+                        progress = if(it == 0.1f) 0f else it,
                         Modifier.weight(1f)
                     )
                 }
@@ -59,11 +57,12 @@ fun DeckItem(navController: NavController, deck: Deck, viewModel: DeckViewModel 
                 onClick = {
                     navController.navigate(
                     Screen.ViewDeckScreen.route +
-                            "?deckId=${deck.id}"
+                            "?deckId=${deck.id}" +
+                            "?deckName=${deck.name}"
                 )},
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Text(text = "View")
+                Text(text = stringResource(R.string.view))
             }
 
             Spacer(Modifier.height(3.dp))
@@ -72,11 +71,12 @@ fun DeckItem(navController: NavController, deck: Deck, viewModel: DeckViewModel 
                 onClick = {
                     navController.navigate(
                         Screen.LearnSessionScreen.route +
-                                "?deckId=${deck.id}"
+                                "?deckId=${deck.id}" +
+                                "?deckName=${deck.name}"
                     )},
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Text(text = "Practise")
+                Text(text = stringResource(R.string.learn))
             }
         }
     }

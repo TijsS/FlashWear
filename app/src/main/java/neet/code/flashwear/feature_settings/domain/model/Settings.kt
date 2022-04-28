@@ -7,10 +7,10 @@ import androidx.room.PrimaryKey
 @Entity
 data class Settings(
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
-    var learnStyle: LearnStyle = LearnStyle.NewWords
+    var learnStyle: LearnStyle = LearnStyle.New
 )
 
 enum class LearnStyle{
-    NewWords, Revise, Random
+    New, Revise, Random
 }
 

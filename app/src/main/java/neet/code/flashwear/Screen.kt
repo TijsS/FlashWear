@@ -11,4 +11,5 @@ sealed class Screen(val route: String) {
 
     object ProgressScreen: Screen("progress_screen")
     object SettingsScreen: Screen("settings_screen")
+    object ViewQuestionScreen: Screen("view_question_screen")
 }

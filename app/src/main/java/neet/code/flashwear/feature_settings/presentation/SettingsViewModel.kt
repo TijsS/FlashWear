@@ -2,6 +2,7 @@ package neet.code.flashwear.feature_settings.presentation
 
 import android.content.ContentValues.TAG
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import neet.code.flashwear.feature_deck.domain.util.DeckOrder
 import neet.code.flashwear.feature_deck.domain.util.OrderType
+import neet.code.flashwear.feature_deck.presentation.decks.DeckViewModel
 import neet.code.flashwear.feature_question.domain.model.Question
 import neet.code.flashwear.feature_question.domain.model.InvalidQuestionException
 import neet.code.flashwear.feature_question.domain.use_case.QuestionsUseCases
@@ -26,7 +28,7 @@ class SettingsViewModel @Inject constructor(
     private val settingsUseCases: SettingsUseCases
     ): ViewModel() {
 
-    private val _settingsState = mutableStateOf(SettingsState(Settings(), LearnStyle.NewWords))
+    private val _settingsState = mutableStateOf(SettingsState(Settings(), LearnStyle.New))
     val settingsState: State<SettingsState> = _settingsState
 
     private var getSettingsJob: Job? = null

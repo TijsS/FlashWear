@@ -3,7 +3,9 @@ package neet.code.flashwear.feature_deck.presentation.decks.components
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import neet.code.flashwear.R
 import neet.code.flashwear.feature_deck.domain.util.DeckOrder
 import neet.code.flashwear.feature_deck.domain.util.OrderType
 
@@ -20,19 +22,19 @@ fun OrderSection(
             modifier = Modifier.fillMaxWidth()
         ) {
             DefaultRadioButton(
-                text = "Name",
+                text = stringResource(R.string.name),
                 selected = deckOrder is DeckOrder.Name,
                 onSelect = { onOrderChange(DeckOrder.Name(deckOrder.orderType)) }
             )
             Spacer(modifier = Modifier.width(8.dp))
             DefaultRadioButton(
-                text = "Date",
+                text = stringResource(R.string.date),
                 selected = deckOrder is DeckOrder.Date,
                 onSelect = { onOrderChange(DeckOrder.Date(deckOrder.orderType)) }
             )
             Spacer(modifier = Modifier.width(8.dp))
             DefaultRadioButton(
-                text = "LastPlayed",
+                text = stringResource(R.string.last_played),
                 selected = deckOrder is DeckOrder.LastPlayed,
                 onSelect = { onOrderChange(DeckOrder.LastPlayed(deckOrder.orderType)) }
             )
@@ -42,7 +44,7 @@ fun OrderSection(
             modifier = Modifier.fillMaxWidth()
         ) {
             DefaultRadioButton(
-                text = "Ascending",
+                text = stringResource(R.string.ascending),
                 selected = deckOrder.orderType is OrderType.Ascending,
                 onSelect = {
                     onOrderChange(deckOrder.copy(OrderType.Ascending))
@@ -50,7 +52,7 @@ fun OrderSection(
             )
             Spacer(modifier = Modifier.width(8.dp))
             DefaultRadioButton(
-                text = "Descending",
+                text = stringResource(R.string.descending),
                 selected = deckOrder.orderType is OrderType.Descending,
                 onSelect = {
                     onOrderChange(deckOrder.copy(OrderType.Descending))

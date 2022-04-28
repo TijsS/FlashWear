@@ -17,16 +17,17 @@ class GetQuestionsWithDeck(
     private val settingsRepository: SettingsRepository
 ) {
 
-    suspend operator fun invoke(deckId: Int): List<Question> {
+    suspend operator fun invoke(deckId: Int, givenLearnStyle: LearnStyle? = null): List<Question> {
         val settings = settingsRepository.getSettings().first()
-        when (settings.learnStyle){
+
+        when (givenLearnStyle ?: settings.learnStyle){
             LearnStyle.Revise -> {
                 return repository.getOldQuestionsByDeck(deckId).shuffled()
             }
             LearnStyle.Random -> {
                 return repository.getQuestionsByDeck(deckId).shuffled()
             }
-            LearnStyle.NewWords -> {
+            LearnStyle.New -> {
                 return repository.getNewQuestionsByDeck(deckId).shuffled()
             }
         }

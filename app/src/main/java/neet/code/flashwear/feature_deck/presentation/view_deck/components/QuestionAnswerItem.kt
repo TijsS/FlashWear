@@ -3,14 +3,13 @@ package neet.code.flashwear.feature_deck.presentation.view_deck.components
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.TabRowDefaults
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -32,7 +31,7 @@ fun QuestionAnswerItem(
                     if (viewModel.viewDeckState.value.questionIsHeldForDelete) {
                         viewModel.onEvent(ViewDeckEvent.ToggleDeleteQuestion)
                     } else {
-                        navController.navigate(Screen.ProgressScreen.route)
+                        navController.navigate("${Screen.ViewQuestionScreen.route}?questionId=${question.id}")
                     }
                 },
                 onLongClick = {
@@ -74,11 +73,41 @@ fun QuestionAnswerItem(
         Column(
             Modifier.padding(5.dp)
         ) {
-            Text(
-                text = "Hello test",
-                style = MaterialTheme.typography.overline
-            )
             question.score?.let { CircularProgressAnimated(it) }
         }
     }
 }
+
+@Composable
+fun CircularProgressAnimated(score: Double) {
+
+    Surface(
+        shape = RoundedCornerShape(50),
+        modifier = Modifier
+            .padding(3.dp),
+        color = MaterialTheme.colors.primary.copy(alpha = ProgressIndicatorDefaults.IndicatorBackgroundOpacity)
+    ) {
+        CircularProgressIndicator(
+            progress = if (score == 0.1) 0.01f else score.toFloat(),
+        )
+    }
+}
+
+@Composable
+fun DeckQuestion(question: String) {
+    Text(question,
+        modifier = Modifier
+            .requiredHeightIn(max = 60.dp),
+        overflow = TextOverflow.Clip
+    )
+}
+
+@Composable
+fun DeckAnswer(answer: String) {
+    Text(answer,
+        modifier = Modifier
+            .requiredHeightIn(max = 60.dp),
+        overflow = TextOverflow.Ellipsis
+    )
+}
+

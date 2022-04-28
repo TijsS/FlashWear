@@ -5,9 +5,6 @@ import neet.code.flashwear.feature_deck.domain.model.Deck
 
 sealed class AddDeckEvent {
     data class EnteredName(val value: String): AddDeckEvent()
-    data class EnteredQuestion(val value: String): AddDeckEvent()
-    data class EnteredAnswer(val value: String): AddDeckEvent()
-    data class ChangeContentFocus(val focusState: FocusState): AddDeckEvent()
 
     object AddDeck: AddDeckEvent()
 }

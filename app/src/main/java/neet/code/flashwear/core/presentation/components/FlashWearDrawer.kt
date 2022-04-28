@@ -10,15 +10,19 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import neet.code.flashwear.R
 import neet.code.flashwear.Screen
 
 @Composable
-fun FlashWearDrawer(navController: NavController, scaffoldState: ScaffoldState, scope: CoroutineScope) {
-    Text("FlashWear", modifier = Modifier.padding(16.dp) )
+fun FlashWearDrawer(navController: NavController, scope: CoroutineScope) {
+    val scaffoldState = rememberScaffoldState()
+
+    Text(stringResource(R.string.app_name), modifier = Modifier.padding(16.dp) )
 
     Spacer(modifier = Modifier.height(15.dp))
     Divider(thickness = 1.5.dp)
@@ -31,7 +35,7 @@ fun FlashWearDrawer(navController: NavController, scaffoldState: ScaffoldState, 
         navController = navController,
         screen = Screen.DecksScreen.route,
         icon = Icons.Filled.School,
-        iconDescription = "Question Decks"
+        iconDescription = stringResource(R.string.decks)
     )
 
     DrawerItem(
@@ -40,7 +44,7 @@ fun FlashWearDrawer(navController: NavController, scaffoldState: ScaffoldState, 
         navController = navController,
         screen = Screen.ProgressScreen.route,
         icon = Icons.Filled.PieChart,
-        iconDescription = "progress"
+        iconDescription = stringResource(R.string.progress)
     )
 
     DrawerItem(
@@ -49,7 +53,7 @@ fun FlashWearDrawer(navController: NavController, scaffoldState: ScaffoldState, 
         navController = navController,
         screen = Screen.SettingsScreen.route,
         icon = Icons.Filled.Settings,
-        iconDescription = "settings"
+        iconDescription = stringResource(R.string.settings)
     )
 }
 

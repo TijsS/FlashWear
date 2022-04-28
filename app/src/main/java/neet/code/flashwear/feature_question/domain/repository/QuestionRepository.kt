@@ -12,13 +12,19 @@ interface QuestionRepository {
 
     suspend fun getOldQuestionsByDeck(deckId: Int): List<Question>
 
+    suspend fun getQuestionsFromIdList(questionIds: List<Long>): List<Question>
+
     suspend fun getQuestionById(id: Int): Question?
 
     suspend fun insertQuestion(question: Question)
 
-    suspend fun insertQuestions(question: List<Question>)
+    suspend fun insertQuestions(question: List<Question>): List<Long>
 
     suspend fun deleteQuestion(question: Question)
+
+    suspend fun deleteQuestionById(questionId: Int)
+
+    suspend fun deleteQuestionsWithDeck(deckId: Int)
 
     suspend fun updateQuestion(question: Question)
 

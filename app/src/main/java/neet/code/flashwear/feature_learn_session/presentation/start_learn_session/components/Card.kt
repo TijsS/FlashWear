@@ -34,9 +34,7 @@ import androidx.compose.ui.unit.sp
 fun Card(
     text: String,
     maxLines: Int,
-    textStyleBody: TextUnit,
     paddingValues: PaddingValues,
-//    readyToDraw: MutableState<Boolean>,
     size: MutableState<TextUnit>
 ) {
 
@@ -49,15 +47,10 @@ fun Card(
             modifier = Modifier
                 .padding(paddingValues)
                 .padding(start = 8.dp, end = 8.dp)
-//                .drawWithContent {
-//                    if (readyToDraw.value) drawContent()
-//                }
             ,
             onTextLayout = { textLayoutResult ->
                 if (textLayoutResult.didOverflowHeight) {
                     size.value=size.value* 0.9f
-                } else {
-//                    readyToDraw.value = true
                 }
             }
         )

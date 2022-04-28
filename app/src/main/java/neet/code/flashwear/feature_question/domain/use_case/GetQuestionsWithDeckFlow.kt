@@ -13,7 +13,6 @@ class GetQuestionsWithDeckFlow(
 ) {
 
     operator fun invoke(deckId: Int): Flow<List<Question>> {
-        Log.i(TAG, "infox GetQuestionsWithDeckFlow: $deckId")
         return repository.getQuestionsByDeckFlow(deckId)
     }
 }

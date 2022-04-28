@@ -1,8 +1,6 @@
 package neet.code.flashwear.feature_deck.presentation.view_deck.components
 
-import android.content.ContentValues
-import android.content.ContentValues.TAG
-import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.*
@@ -17,22 +15,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
+import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import kotlinx.coroutines.launch
+import neet.code.flashwear.R
 import neet.code.flashwear.Screen
 import neet.code.flashwear.feature_deck.presentation.view_deck.ViewDeckEvent
 import neet.code.flashwear.feature_deck.presentation.view_deck.ViewDeckState
 import neet.code.flashwear.feature_deck.presentation.view_deck.ViewDeckViewModel
 import neet.code.flashwear.feature_question.domain.model.Question
+import java.time.LocalDate
 
 @Composable
-fun FloatingMenuButton(viewModel: ViewDeckViewModel, viewDeckState: ViewDeckState, navController: NavController) {
+fun FloatingMenuButton(
+    viewModel: ViewDeckViewModel,
+    viewDeckState: ViewDeckState,
+    navController: NavController,
+    showSnackbar: (String, SnackbarDuration) -> Unit,
+    ) {
     val context = LocalContext.current
-    val scaffoldState = rememberScaffoldState()
-    val scope = rememberCoroutineScope()
+    val csvImportFailedMsgStringResource = stringResource(R.string.csv_import_fail)
+    val csvExportFailedMsgStringResource = stringResource(R.string.csv_export_fail)
 
     val pickFileLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.OpenDocument()
@@ -43,15 +51,13 @@ fun FloatingMenuButton(viewModel: ViewDeckViewModel, viewDeckState: ViewDeckStat
             context.contentResolver.openInputStream(csv)?.use { inputStream ->
                 csvReader().open(inputStream){
                     readAllWithHeaderAsSequence().forEach { row ->
-                        Log.i(TAG, "question: $row ")
-                        Log.i(TAG, "questionTitle: ${row["questionTitle"]} ")
 
                         val question = Question(
                             questionTitle = row["QuestionTitle"],
                             questionContent = row["QuestionContent"],
                             answerTitle = row["AnswerTitle"],
                             answerContent = row["AnswerContent"],
-                            answerSub = row["answerSub"],
+                            answerSub = row["AnswerSub"],
                             deckId = viewDeckState.deckId
                         )
                         importedQuestions.add(question)
@@ -61,13 +67,46 @@ fun FloatingMenuButton(viewModel: ViewDeckViewModel, viewDeckState: ViewDeckStat
 
             viewModel.onEvent(ViewDeckEvent.ImportQuestions(importedQuestions))
 
-            scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = viewDeckState.importedQuestionsMessage
-                )
-            }
+            showSnackbar(
+                viewDeckState.importedQuestionsMessage, SnackbarDuration.Short
+            )
+
+        }else{
+            showSnackbar(
+                csvImportFailedMsgStringResource, SnackbarDuration.Short
+            )
         }
     }
+
+    val exportFileLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.CreateDocument("text/csv")
+    ) { path ->
+        if (path != null) {
+
+            context.contentResolver.openOutputStream(path)?.use { outputStream ->
+                csvWriter().open(outputStream){
+                    writeRow(
+                        "QuestionTitle",
+                        "QuestionContent",
+                        "AnswerTitle",
+                        "AnswerContent",
+                        "answerSub"
+                    )
+                    for(question in viewDeckState.questions){
+                        writeRow(question.toCsvRow())
+                    }
+                }
+            }
+            showSnackbar(
+                "Exported", SnackbarDuration.Short
+            )
+        }else{
+            showSnackbar(
+                csvExportFailedMsgStringResource, SnackbarDuration.Short
+            )
+        }
+    }
+
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -81,47 +120,66 @@ fun FloatingMenuButton(viewModel: ViewDeckViewModel, viewDeckState: ViewDeckStat
             Column {
 
                 FloatingMenuButtonItem(
-                    navController = navController,
-                    viewDeckState = viewDeckState,
+                    viewModel = viewModel,
                     onClick = { navController.navigate("${Screen.AddQuestionScreen.route}?deckId=${viewDeckState.deckId}") },
-                    text = "Add",
+                    text = stringResource(R.string.add),
                     imageVector = Icons.Filled.Add
                 )
 
                 Spacer(modifier = Modifier.size(10.dp))
 
                 FloatingMenuButtonItem(
-                    navController = navController,
-                    onClick = { navController.navigate(Screen.ProgressScreen.route) },
-                    text = "Delete",
+                    viewModel = viewModel,
+                    onClick = {
+                        viewModel.onEvent(ViewDeckEvent.DeleteDeck)
+                        navController.navigate(Screen.DecksScreen.route)
+                              },
+                    text = stringResource(R.string.delete),
                     imageVector = Icons.Filled.Remove
                 )
 
                 Spacer(modifier = Modifier.size(10.dp))
 
                 FloatingMenuButtonItem(
-                    navController = navController,
-                    onClick = { navController.navigate(Screen.ProgressScreen.route) },
-                    text = "Export",
+                    viewModel = viewModel,
+                    onClick = { exportFileLauncher.launch("${viewDeckState.deckName} - ${LocalDate.now()}") },
+                    text = stringResource(R.string.export),
                     imageVector = Icons.Filled.ImportExport
                 )
 
                 Spacer(modifier = Modifier.size(10.dp))
 
-
                 FloatingMenuButtonItem(
-                    navController = navController,
+                    viewModel = viewModel,
                     onClick = { pickFileLauncher.launch(arrayOf("text/*")) },
-                    text = "import",
+                    text = stringResource(R.string.importText),
                     imageVector = Icons.Filled.FileDownload
                 )
 
                 Spacer(modifier = Modifier.size(10.dp))
 
                 FloatingMenuButtonItem(
-                    navController = navController,
-                    onClick = {navController.navigate("${Screen.LearnSessionScreen.route}?deckId=${viewDeckState.deckId}") },
-                    text = "Practise",
+                    viewModel = viewModel,
+                    onClick = {
+                        viewModel.onEvent(ViewDeckEvent.SyncWithWearable)
+                        ViewDeckViewModel.UiEvent.ShowSnackbar(
+                            message = "synced"
+                        )
+                    },
+                    text = stringResource(R.string.sync),
+                    imageVector = Icons.Filled.Watch
+                )
+
+                Spacer(modifier = Modifier.size(10.dp))
+
+                FloatingMenuButtonItem(
+                    viewModel = viewModel,
+                    onClick = {
+                        navController.navigate(
+                            Screen.LearnSessionScreen.route +
+                                "?deckId=${viewDeckState.deckId}" +
+                                "?deckName=${viewDeckState.deckName}") },
+                    text = stringResource(R.string.learn),
                     imageVector = Icons.Filled.PlayArrow
                 )
             }
@@ -135,11 +193,12 @@ fun FloatingMenuButton(viewModel: ViewDeckViewModel, viewDeckState: ViewDeckStat
             onClick = {
                 viewModel.onEvent(ViewDeckEvent.ToggleActionMenu)
             },
-            backgroundColor = MaterialTheme.colors.primary
+            backgroundColor = MaterialTheme.colors.primary,
+            modifier = Modifier.alpha(if (viewDeckState.isFloatingMenuVisible) 0.5f else 1f)
         ) {
             Icon(
                 imageVector = Icons.Default.MenuOpen,
-                contentDescription = "open options"
+                contentDescription = stringResource(R.string.open_options)
             )
         }
     }

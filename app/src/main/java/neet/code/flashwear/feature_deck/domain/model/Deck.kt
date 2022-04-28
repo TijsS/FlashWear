@@ -9,10 +9,7 @@ import androidx.room.PrimaryKey
 data class Deck(
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
     @ColumnInfo(name = "name") val name: String,
-    @ColumnInfo(name = "questions") val questions: String,
-    @ColumnInfo(name = "statistics") val statistics: String,
-    @ColumnInfo(name = "created") val created: Long,
-    @ColumnInfo(name = "last_played") val lastPlayed: Long,
+    @ColumnInfo(name = "created") val created: Long = System.currentTimeMillis(),
     )
 
 class InvalidDeckException(message: String): Exception(message)

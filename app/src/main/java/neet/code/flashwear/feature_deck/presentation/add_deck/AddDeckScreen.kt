@@ -1,37 +1,32 @@
 package neet.code.flashwear.feature_deck.presentation.add_deck
 
-import android.content.ContentValues.TAG
-import android.util.Log
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toFile
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import kotlinx.coroutines.flow.collectLatest
+import neet.code.flashwear.R
 import neet.code.flashwear.core.presentation.components.FlashWearDrawer
 import neet.code.flashwear.core.presentation.components.FlashWearTopBar
 import neet.code.flashwear.feature_deck.presentation.add_deck.components.TransparentHintTextField
-import neet.code.flashwear.feature_question.domain.model.Question
-import java.io.BufferedReader
-import java.io.File
-import java.io.InputStreamReader
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun AddDeckScreen(    navController: NavController,
-                     viewModel: AddDeckViewModel = hiltViewModel()
+fun AddDeckScreen(
+    navController: NavController,
+    showSnackbar: (String, SnackbarDuration) -> Unit,
+    viewModel: AddDeckViewModel = hiltViewModel()
 ){
     val scope = rememberCoroutineScope()
     val deckState = viewModel.deck.value
@@ -60,20 +55,19 @@ fun AddDeckScreen(    navController: NavController,
                 },
                 backgroundColor = MaterialTheme.colors.primary
             ) {
-                Icon(imageVector = Icons.Default.Save, contentDescription = "Save deck")
+                Icon(imageVector = Icons.Default.Save, contentDescription = stringResource(R.string.save_deck))
             }
         },
         topBar = {
             FlashWearTopBar(
                 state = scaffoldState,
                 scope = scope,
-                title = "Add deck",
+                title = stringResource(R.string.add_deck),
                 withFunction = false,
             )
         },
         drawerContent = { FlashWearDrawer(
             navController = navController,
-            scaffoldState = scaffoldState,
             scope = scope
         ) },
         scaffoldState = scaffoldState
@@ -88,7 +82,7 @@ fun AddDeckScreen(    navController: NavController,
 
             TransparentHintTextField(
                 text = deckState.text,
-                label = "Deck title",
+                label = stringResource(R.string.deck_title),
                 onValueChange = {
                     viewModel.onEvent(AddDeckEvent.EnteredName(it))
                 },

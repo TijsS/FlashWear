@@ -28,7 +28,7 @@ interface QuestionDao : BaseDao<Question> {
     suspend fun getNewQuestionsByDeck(id: Int): List<Question>
 
     @Transaction
-    @Query("SELECT * FROM question where question.deckId = :id")
+    @Query("SELECT * FROM question where question.deckId = :id order by score DESC")
     fun getQuestionsByDeckIdFlow(id: Int): Flow<List<Question>>
 
     @Transaction
@@ -36,6 +36,18 @@ interface QuestionDao : BaseDao<Question> {
     suspend fun getQuestionById(id: Int): Question
 
     @Transaction
-    @Query("select IFNULL(avg(q.score), 0.0) from question q where q.deckId = :id")
+    @Query("SELECT * FROM question where question.id in (:ids)")
+    suspend fun getQuestionsFromIdList(ids: List<Long>): List<Question>
+
+    @Transaction
+    @Query("DELETE FROM question where question.id = :id")
+    suspend fun deleteQuestionById(id: Int)
+
+    @Transaction
+    @Query("DELETE FROM question where question.deckId = :id")
+    suspend fun deleteQuestionsWithDeck(id: Int)
+
+    @Transaction
+    @Query("select IFNULL(avg(question.score), 0.0) from question where question.deckId = :id")
     suspend fun averageScoreOfDeck(id: Int): Float
 }

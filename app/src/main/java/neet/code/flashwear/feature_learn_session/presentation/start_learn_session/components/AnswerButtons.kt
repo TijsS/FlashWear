@@ -8,7 +8,9 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import neet.code.flashwear.R
 import neet.code.flashwear.feature_learn_session.presentation.start_learn_session.StartLearnSessionEvent
 import neet.code.flashwear.feature_learn_session.presentation.start_learn_session.StartLearnSessionState
 import neet.code.flashwear.feature_learn_session.presentation.start_learn_session.StartLearnSessionViewModel
@@ -44,7 +46,7 @@ fun UserAnswer(startLearnSessionState: StartLearnSessionState, viewModel: StartL
                     .fillMaxWidth()
                     .height(50.dp)
             ) {
-                Text(text = "Show")
+                Text(text = stringResource(R.string.show))
             }
         }
 
@@ -80,7 +82,7 @@ fun UserAnswer(startLearnSessionState: StartLearnSessionState, viewModel: StartL
                         .padding(2.dp)
                         .height(50.dp),
                 ) {
-                    Text(text = "Incorrect")
+                    Text(text = stringResource(R.string.incorrect))
                 }
 
                 Button(
@@ -92,7 +94,7 @@ fun UserAnswer(startLearnSessionState: StartLearnSessionState, viewModel: StartL
                         .padding(2.dp)
                         .height(50.dp),
                 ) {
-                    Text(text = "Almost")
+                    Text(text = stringResource(R.string.almost))
                 }
 
                 Button(
@@ -104,7 +106,7 @@ fun UserAnswer(startLearnSessionState: StartLearnSessionState, viewModel: StartL
                         .padding(2.dp)
                         .height(50.dp),
                 ) {
-                    Text(text = "Correct")
+                    Text(text = stringResource(R.string.correct))
                 }
             }
         }

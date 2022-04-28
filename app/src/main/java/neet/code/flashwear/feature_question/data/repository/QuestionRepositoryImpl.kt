@@ -28,20 +28,32 @@ class QuestionRepositoryImpl(
         return dao.getNewQuestionsByDeck(deckId)
     }
 
-    override suspend fun getQuestionById(id: Int): Question? {
+    override suspend fun getQuestionById(id: Int): Question {
         return dao.getQuestionById(id)
     }
 
-    override suspend fun insertQuestion(question: Question) {
-        return dao.insert(question)
+    override suspend fun getQuestionsFromIdList(questionIds: List<Long>): List<Question> {
+        return dao.getQuestionsFromIdList(questionIds)
     }
 
-    override suspend fun insertQuestions(question: List<Question>) {
+    override suspend fun insertQuestion(question: Question) {
+        dao.insert(question)
+    }
+
+    override suspend fun insertQuestions(question: List<Question>): List<Long> {
         return dao.insertBatch(question)
     }
 
     override suspend fun deleteQuestion(question: Question) {
         return dao.delete(question)
+    }
+
+    override suspend fun deleteQuestionById(questionId: Int) {
+        return dao.deleteQuestionById(questionId)
+    }
+
+    override suspend fun deleteQuestionsWithDeck(deckId: Int) {
+        return dao.deleteQuestionsWithDeck(deckId)
     }
 
     override suspend fun updateQuestion(question: Question) {

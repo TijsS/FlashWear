@@ -10,11 +10,14 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import neet.code.flashwear.R
 import neet.code.flashwear.core.presentation.components.FlashWearDrawer
 import neet.code.flashwear.core.presentation.components.FlashWearTopBar
 import neet.code.flashwear.feature_deck.presentation.add_deck.components.TransparentHintTextField
@@ -24,6 +27,7 @@ import neet.code.flashwear.feature_deck.presentation.add_deck.components.Transpa
 @Composable
 fun AddQuestionScreen(
     navController: NavController,
+    showSnackbar: (String, SnackbarDuration) -> Unit,
     viewModel: AddQuestionViewModel = hiltViewModel()
 ){
     val scope = rememberCoroutineScope()
@@ -34,9 +38,9 @@ fun AddQuestionScreen(
         viewModel.eventFlow.collectLatest { event ->
             when(event) {
                 is AddQuestionViewModel.UiEvent.ShowSnackbar -> {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = event.message
-                    )
+                    scope.launch {
+                        showSnackbar(event.message, SnackbarDuration.Short)
+                    }
                 }
                 is AddQuestionViewModel.UiEvent.SaveQuestion -> {
                     navController.navigateUp()
@@ -53,22 +57,23 @@ fun AddQuestionScreen(
                 },
                 backgroundColor = MaterialTheme.colors.primary
             ) {
-                Icon(imageVector = Icons.Default.Save, contentDescription = "Save question")
+                Icon(imageVector = Icons.Default.Save, contentDescription = stringResource(R.string.save_question))
             }
         },
         topBar = {
             FlashWearTopBar(
                 state = scaffoldState,
                 scope = scope,
-                title = "Add question",
+                title = stringResource(R.string.update_question),
                 withFunction = false,
             )
         },
-        drawerContent = { FlashWearDrawer(
-            navController = navController,
-            scaffoldState = scaffoldState,
-            scope = scope
-        ) },
+        drawerContent = {
+            FlashWearDrawer(
+                navController = navController,
+                scope = scope
+            )
+        },
         scaffoldState = scaffoldState
     ) {
         Column(
@@ -81,7 +86,7 @@ fun AddQuestionScreen(
 
             TransparentHintTextField(
                 text = questionState.questionTitle,
-                label = "Question Title",
+                label = stringResource(R.string.question_title),
                 onValueChange = {
                     viewModel.onEvent(AddQuestionEvent.EnteredQuestionTitle(it))
                 },
@@ -93,7 +98,7 @@ fun AddQuestionScreen(
 
             TransparentHintTextField(
                 text = questionState.questionContent,
-                label = "Question Content",
+                label = stringResource(R.string.question_content),
                 onValueChange = {
                     viewModel.onEvent(AddQuestionEvent.EnteredQuestionContent(it))
                 },
@@ -106,7 +111,7 @@ fun AddQuestionScreen(
 
             TransparentHintTextField(
                 text = questionState.answerTitle,
-                label = "Answer Title",
+                label = stringResource(R.string.answer_Title),
                 onValueChange = {
                     viewModel.onEvent(AddQuestionEvent.EnteredAnswerTitle(it))
                 },
@@ -119,7 +124,7 @@ fun AddQuestionScreen(
 
             TransparentHintTextField(
                 text = questionState.answerContent,
-                label = "Answer Content",
+                label = stringResource(R.string.answer_content),
                 onValueChange = {
                     viewModel.onEvent(AddQuestionEvent.EnteredAnswerContent(it))
                 },
@@ -132,12 +137,12 @@ fun AddQuestionScreen(
 
             TransparentHintTextField(
                 text = questionState.answerSub,
-                label = "Answer Subtitle",
+                label = stringResource(R.string.answer_sub),
                 onValueChange = {
                     viewModel.onEvent(AddQuestionEvent.EnteredAnswerSub(it))
                 },
                 singleLine = false,
-                textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary))
+                textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary)),
             )
 
         }

@@ -8,7 +8,6 @@ sealed class AddQuestionEvent {
     data class EnteredAnswerTitle(val value: String): AddQuestionEvent()
     data class EnteredAnswerSub(val value: String): AddQuestionEvent()
     data class EnteredAnswerContent(val value: String): AddQuestionEvent()
-    data class ChangeContentFocus(val focusState: FocusState): AddQuestionEvent()
 
     object AddQuestion: AddQuestionEvent()
 }

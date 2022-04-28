@@ -24,10 +24,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddDeckViewModel @Inject constructor(
-    private val deckUseCases: DecksUseCases,
-    savedStateHandle: SavedStateHandle
-): ViewModel() {
-
+    private val deckUseCases: DecksUseCases
+    ): ViewModel()
+{
     private val _state = mutableStateOf(AddDecksState())
     val state: State<AddDecksState> = _state
 
@@ -48,7 +47,6 @@ class AddDeckViewModel @Inject constructor(
                 _deck.value = deck.value.copy(
                     text = event.value
                 )
-                Log.i("test", "onEvent: EnteredName, ${event.value}")
             }
             is AddDeckEvent.AddDeck -> {
                 viewModelScope.launch {
@@ -56,13 +54,10 @@ class AddDeckViewModel @Inject constructor(
                         deckUseCases.addDeck(
                             Deck(
                                 name = deck.value.text,
-                                questions = "none",
-                                statistics = "none",
-                                created = System.currentTimeMillis(),
-                                lastPlayed = System.currentTimeMillis(),
                             )
                         )
                         _eventFlow.emit(UiEvent.SaveDeck)
+
                     } catch(e: InvalidDeckException) {
                         _eventFlow.emit(
                             UiEvent.ShowSnackbar(
@@ -71,7 +66,6 @@ class AddDeckViewModel @Inject constructor(
                         )
                     }
                 }
-
             }
         }
     }

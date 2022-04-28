@@ -23,7 +23,6 @@ fun QuestionCard(
     startLearnSessionState: StartLearnSessionState,
     sizeTitle: MutableState<TextUnit>,
     sizeContent: MutableState<TextUnit>,
-    sizeSub: MutableState<TextUnit>,
     ) {
 
     Surface(
@@ -50,7 +49,6 @@ fun QuestionCard(
                         Card(
                             text = questionTitle,
                             maxLines = 2,
-                            textStyleBody = MaterialTheme.typography.h3.fontSize,
                             paddingValues = PaddingValues(top = 8.dp, bottom = 15.dp),
                             size = sizeTitle,
                         )
@@ -63,7 +61,6 @@ fun QuestionCard(
                         Card(
                             text = questionContent,
                             maxLines = 3,
-                            textStyleBody = MaterialTheme.typography.h6.fontSize,
                             paddingValues = PaddingValues(bottom = 8.dp),
                             size = sizeContent
                         )

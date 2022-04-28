@@ -11,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import neet.code.flashwear.feature_deck.presentation.view_deck.ViewDeckViewModel
 import neet.code.flashwear.feature_question.domain.model.Question
 import neet.code.flashwear.feature_question.domain.model.InvalidQuestionException
 import neet.code.flashwear.feature_question.domain.use_case.QuestionsUseCases
@@ -37,8 +38,6 @@ class AddQuestionViewModel @Inject constructor(
     }
 
     fun onEvent(event: AddQuestionEvent){
-        val question = questionState.value
-
         when (event) {
             is AddQuestionEvent.EnteredQuestionTitle -> {
                 _questionState.value = questionState.value.copy(

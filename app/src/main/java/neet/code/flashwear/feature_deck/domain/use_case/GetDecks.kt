@@ -20,7 +20,7 @@ class GetDecks(
                     when(deckOrder){
                         is DeckOrder.Name -> decks.sortedBy { it.name.lowercase() }
                         is DeckOrder.Date -> decks.sortedBy { it.created }
-                        is DeckOrder.LastPlayed -> decks.sortedBy { it.lastPlayed }
+                        is DeckOrder.LastPlayed -> decks
 
                     }
                 }
@@ -28,12 +28,10 @@ class GetDecks(
                     when(deckOrder){
                         is DeckOrder.Name -> decks.sortedByDescending { it.name.lowercase() }
                         is DeckOrder.Date -> decks.sortedByDescending { it.created }
-                        is DeckOrder.LastPlayed -> decks.sortedByDescending { it.lastPlayed }
-
+                        is DeckOrder.LastPlayed -> decks.asReversed()
                     }
                 }
             }
-
         }
     }
 }

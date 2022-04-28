@@ -39,7 +39,6 @@ fun AnswerCard(
                             Card(
                                 text = answerTitle,
                                 maxLines = 2,
-                                textStyleBody = MaterialTheme.typography.h3.fontSize,
                                 paddingValues = PaddingValues(top = 8.dp),
                                 size = sizeTitle
                             )
@@ -50,7 +49,6 @@ fun AnswerCard(
                         Card(
                             text = answerSub,
                             maxLines = 1,
-                            textStyleBody = MaterialTheme.typography.subtitle2.fontSize,
                             paddingValues = PaddingValues(bottom = 15.dp),
                             size = sizeSub,
                         )
@@ -61,7 +59,6 @@ fun AnswerCard(
                         Card(
                             text = answerContent,
                             maxLines = 3,
-                            textStyleBody = MaterialTheme.typography.h6.fontSize,
                             paddingValues = PaddingValues(bottom = 8.dp),
                             size = sizeContent
                         )

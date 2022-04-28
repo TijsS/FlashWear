@@ -1,18 +1,26 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
-
+ext {
+    compose_version = '1.2.0-alpha01'
+}
 android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "neet.code.wearable"
+        applicationId "neet.code.flashwear"
         minSdk 26
         targetSdk 32
         versionCode 1
         versionName "1.0"
 
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        vectorDrawables {
+//            useSupportLibrary true
+//        }
     }
 
     buildTypes {
@@ -21,17 +29,72 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+    }
+
     buildFeatures {
+        compose true
         viewBinding true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.1.0-rc03'
+    }
+
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
     }
 }
 
-dependencies {
 
+dependencies {
     implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'com.google.android.gms:play-services-wearable:17.1.0'
     implementation 'androidx.percentlayout:percentlayout:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.wear:wear:1.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    //lifecycle
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-beta01"
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.0-beta01'
+
+    //compose
+    implementation "androidx.wear.compose:compose-navigation:1.0.0-alpha21"
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+    implementation 'androidx.wear.compose:compose-material:1.0.0-alpha21'
+    implementation "androidx.compose.compiler:compiler:1.2.0-alpha08"
+
+    //Dagger - Hilt
+    implementation "com.google.dagger:hilt-android:2.40.5"
+    implementation 'androidx.compose.material:material-icons-core:1.1.1'
+//    implementation project(path: ':app')
+    kapt "com.google.dagger:hilt-android-compiler:2.40"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
+    kapt "androidx.hilt:hilt-compiler:1.0.0"
+
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.1'
+
+    // Play services
+    implementation 'com.google.android.gms:play-services-wearable:17.1.0'
+
+    // JSON converting object to string for communicating with mobile
+    implementation("com.squareup.moshi:moshi:1.13.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.13.0")
+
+    // Room
+    implementation "androidx.room:room-runtime:2.4.2"
+    kapt "androidx.room:room-compiler:2.4.2"
+    implementation "androidx.room:room-ktx:2.4.2"
 }
