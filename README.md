@@ -61,12 +61,12 @@ Make a csv file with the following headers (every value can be left empty)
 | The Netherlands       | What is the capital of The netherlands   | Amsterdam   | Even though the government is mostly located in Den Haag. The capital is in Amsterdam | Area: 41,543 km² Pop: 17.5 mil|
 
 #### Phone: 
-<img src="images/phone_question_example.jpg?raw=true" alt="phone_question_preview" width="300"/>
+<img src="images/phone_question_example.JPG?raw=true" alt="phone_question_preview" width="300"/>
 
 #### Wearable:
 
 Question: 
-<img src="images/wearable_question_example.jpg?raw=true" alt="Question-preview" width="300"/>
+<img src="images/wearable_question_example.JPG?raw=true" alt="Question-preview" width="300"/>
 
 answer: 
-<img src="images/wearable_answer_example.jpg?raw=true" alt="Answer-preview" width="300"/>
+<img src="images/wearable_answer_example.JPG?raw=true" alt="Answer-preview" width="300"/>
