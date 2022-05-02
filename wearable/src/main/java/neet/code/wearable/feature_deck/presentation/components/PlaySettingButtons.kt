@@ -29,7 +29,7 @@ fun PlaySettingButtons(deckState: DecksState, viewModel: DecksViewModel) {
             ) {
 
             CompactChipButton(
-                drawable = R.drawable.new_words,
+                drawable = R.drawable.new_question,
                 colors = ChipDefaults.chipColors(backgroundColor = if(deckState.learnStyle == LearnStyle.New) MaterialTheme.colors.primary else Color.Black),
                 onClick = {viewModel.onEvent(DecksEvent.ChangeLearnStyle(LearnStyle.New))}
             )

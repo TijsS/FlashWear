@@ -67,10 +67,6 @@ fun FloatingMenuButton(
 
             viewModel.onEvent(ViewDeckEvent.ImportQuestions(importedQuestions))
 
-            showSnackbar(
-                viewDeckState.importedQuestionsMessage, SnackbarDuration.Short
-            )
-
         }else{
             showSnackbar(
                 csvImportFailedMsgStringResource, SnackbarDuration.Short
@@ -90,7 +86,7 @@ fun FloatingMenuButton(
                         "QuestionContent",
                         "AnswerTitle",
                         "AnswerContent",
-                        "answerSub"
+                        "AnswerSub"
                     )
                     for(question in viewDeckState.questions){
                         writeRow(question.toCsvRow())

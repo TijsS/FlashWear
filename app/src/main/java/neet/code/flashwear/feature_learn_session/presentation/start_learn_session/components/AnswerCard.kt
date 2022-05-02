@@ -48,7 +48,7 @@ fun AnswerCard(
                     startLearnSessionState.currentQuestion?.answerSub?.let { answerSub ->
                         Card(
                             text = answerSub,
-                            maxLines = 1,
+                            maxLines = 2,
                             paddingValues = PaddingValues(bottom = 15.dp),
                             size = sizeSub,
                         )

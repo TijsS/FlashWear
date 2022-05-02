@@ -44,7 +44,13 @@ fun DecksScreen(
                 onClick = {
                     navController.navigate( Screen.QuestionScreen.route +
                             "?deckId=${deck.id}" +
-                            "?learnStyle=${viewDeckState.learnStyle}") },
+                            "?learnStyle=${viewDeckState.learnStyle}")
+//                    {
+//                        popUpTo(Screen.DecksScreen.route) {
+//                            inclusive = true
+//                        }
+//                    }
+                          },
                 label = {
                     Text(
                         text = deck.name,

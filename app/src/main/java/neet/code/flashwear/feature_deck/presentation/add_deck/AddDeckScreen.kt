@@ -87,7 +87,7 @@ fun AddDeckScreen(
                     viewModel.onEvent(AddDeckEvent.EnteredName(it))
                 },
                 singleLine = true,
-                textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary))
+                textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary, fontSize = MaterialTheme.typography.body1.fontSize))
             )
 
             Spacer(modifier = Modifier.height(16.dp))

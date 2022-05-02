@@ -44,7 +44,7 @@
     <string name="answer_sub">Antwoord subtitel</string>
     <string name="learn_style">Leer style</string>
     <string name="score">Score</string>
-    <string name="new_words">Nieuwe woorden</string>
+    <string name="new_questions">Nieuwe vragen</string>
     <string name="revise">Herhalen</string>
     <string name="random">Random</string>
 </resources>

@@ -44,7 +44,7 @@
     <string name="answer_sub">Answer sub</string>
     <string name="score">Score</string>
     <string name="learn_style">Learn style</string>
-    <string name="new_words">New Words</string>
+    <string name="new_questions">New questions</string>
     <string name="revise">Revise</string>
     <string name="random">Random</string>
 </resources>

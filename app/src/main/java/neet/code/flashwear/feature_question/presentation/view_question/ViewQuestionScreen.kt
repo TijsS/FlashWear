@@ -95,7 +95,7 @@ fun ViewQuestionScreen (
                             viewModel.onEvent(ViewQuestionEvent.EnteredQuestionTitle(it))
                         },
                         singleLine = false,
-                        textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary))
+                        textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary, fontSize = MaterialTheme.typography.body1.fontSize))
                     )
                 }
 
@@ -109,7 +109,7 @@ fun ViewQuestionScreen (
                             viewModel.onEvent(ViewQuestionEvent.EnteredQuestionContent(it))
                         },
                         singleLine = false,
-                        textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary))
+                        textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary, fontSize = MaterialTheme.typography.body1.fontSize))
                     )
                 }
 
@@ -123,7 +123,7 @@ fun ViewQuestionScreen (
                             viewModel.onEvent(ViewQuestionEvent.EnteredAnswerTitle(it))
                         },
                         singleLine = false,
-                        textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary))
+                        textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary, fontSize = MaterialTheme.typography.body1.fontSize))
                     )
                 }
 
@@ -137,7 +137,7 @@ fun ViewQuestionScreen (
                             viewModel.onEvent(ViewQuestionEvent.EnteredAnswerContent(it))
                         },
                         singleLine = false,
-                        textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary))
+                        textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary, fontSize = MaterialTheme.typography.body1.fontSize))
                     )
                 }
 
@@ -151,7 +151,7 @@ fun ViewQuestionScreen (
                             viewModel.onEvent(ViewQuestionEvent.EnteredAnswerSub(it))
                         },
                         singleLine = false,
-                        textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary))
+                        textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary, fontSize = MaterialTheme.typography.body1.fontSize))
                     )
                 }
 
@@ -164,24 +164,10 @@ fun ViewQuestionScreen (
                         viewModel.onEvent(ViewQuestionEvent.EnteredScore(it))
                     },
                     singleLine = true,
-                    textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary)),
+                    textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary, fontSize = MaterialTheme.typography.body1.fontSize)),
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal)
                 )
             }
-//            Spacer(modifier = Modifier.weight(1f))
-//            Row(modifier = Modifier.fillMaxWidth()) {
-//                Spacer(modifier = Modifier.weight(0.1f))
-//                DefaultSnackbar(
-//                    snackbarHostState = scaffoldState.snackbarHostState,
-//                    onDismiss = {
-//                        scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-//                    },
-//                    modifier = Modifier
-//                        .padding(bottom = 80.dp)
-//                        .weight(2f)
-//                )
-//                Spacer(modifier = Modifier.weight(0.1f))
-//            }
         }
     }
 }

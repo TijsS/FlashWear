@@ -85,7 +85,7 @@ fun SettingsScreen(
                     colors = buttonColors(backgroundColor = if (settingsState.value.settings.learnStyle == LearnStyle.New) MaterialTheme.colors.primary else Color.Black),
                     shape = RoundedCornerShape(4.dp)
                 ) {
-                    Text(text = stringResource(R.string.new_words), color = Color.White)
+                    Text(text = stringResource(R.string.new_questions), color = Color.White)
                 }
 
 

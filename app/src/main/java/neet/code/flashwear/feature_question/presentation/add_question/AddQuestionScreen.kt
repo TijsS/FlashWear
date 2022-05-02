@@ -3,7 +3,11 @@ package neet.code.flashwear.feature_question.presentation.add_question
 import neet.code.flashwear.feature_question.presentation.add_question.AddQuestionEvent
 import neet.code.flashwear.feature_question.presentation.add_question.AddQuestionViewModel
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
@@ -91,7 +95,7 @@ fun AddQuestionScreen(
                     viewModel.onEvent(AddQuestionEvent.EnteredQuestionTitle(it))
                 },
                 singleLine = false,
-                textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary))
+                textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary, fontSize = MaterialTheme.typography.body1.fontSize))
             )
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -103,7 +107,7 @@ fun AddQuestionScreen(
                     viewModel.onEvent(AddQuestionEvent.EnteredQuestionContent(it))
                 },
                 singleLine = false,
-                textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary))
+                textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary, fontSize = MaterialTheme.typography.body1.fontSize))
             )
 
 
@@ -116,7 +120,7 @@ fun AddQuestionScreen(
                     viewModel.onEvent(AddQuestionEvent.EnteredAnswerTitle(it))
                 },
                 singleLine = false,
-                textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary))
+                textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary, fontSize = MaterialTheme.typography.body1.fontSize))
             )
 
 
@@ -129,7 +133,7 @@ fun AddQuestionScreen(
                     viewModel.onEvent(AddQuestionEvent.EnteredAnswerContent(it))
                 },
                 singleLine = false,
-                textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary))
+                textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary, fontSize = MaterialTheme.typography.body1.fontSize))
             )
 
 
@@ -142,9 +146,8 @@ fun AddQuestionScreen(
                     viewModel.onEvent(AddQuestionEvent.EnteredAnswerSub(it))
                 },
                 singleLine = false,
-                textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary)),
+                textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary, fontSize = MaterialTheme.typography.body1.fontSize)),
             )
-
         }
     }
 }
