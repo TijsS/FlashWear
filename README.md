@@ -56,7 +56,7 @@ Delete questions you dont need anymore or lower the score of a question you dont
 ### Import file 
 Make a csv file with the following headers (every value can be left empty)
 
-| QuestionTitle | QuestionContent                          | AnswerTitle | AnswerContent    | AnswerSub |
+| QuestionTitle (max 3 lines, 200 chars) | QuestionContent (max 3 lines, 200 chars) | AnswerTitle (max 3 lines, 200 chars) | AnswerContent (max 3 lines, 200 chars) | AnswerSub (max 2 lines, 50 chars) |
 | ------------- |:----------------------------------------:| -----------:|:----------------:| ---------:|
 | The Netherlands       | What is the capital of The netherlands   | Amsterdam   | Even though the government is mostly located in Den Haag. The capital is in Amsterdam | Area: 41,543 km² Pop: 17.5 mil|
 
