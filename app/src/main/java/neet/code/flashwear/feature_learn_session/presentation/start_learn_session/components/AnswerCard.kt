@@ -38,7 +38,7 @@ fun AnswerCard(
                     startLearnSessionState.currentQuestion?.answerTitle?.let { answerTitle ->
                             Card(
                                 text = answerTitle,
-                                maxLines = 2,
+                                maxLines = 4,
                                 paddingValues = PaddingValues(top = 8.dp),
                                 size = sizeTitle
                             )
@@ -58,7 +58,7 @@ fun AnswerCard(
                     startLearnSessionState.currentQuestion?.answerContent?.let { answerContent ->
                         Card(
                             text = answerContent,
-                            maxLines = 3,
+                            maxLines = 4,
                             paddingValues = PaddingValues(bottom = 8.dp),
                             size = sizeContent
                         )

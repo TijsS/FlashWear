@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.collectLatest
 import neet.code.flashwear.R
 import neet.code.flashwear.core.presentation.components.FlashWearDrawer
 import neet.code.flashwear.core.presentation.components.FlashWearTopBar
-import neet.code.flashwear.feature_deck.presentation.add_deck.components.TransparentHintTextField
+import neet.code.flashwear.core.presentation.components.TransparentHintTextField
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -86,7 +86,10 @@ fun AddDeckScreen(
                 onValueChange = {
                     viewModel.onEvent(AddDeckEvent.EnteredName(it))
                 },
+                showSnackbar = showSnackbar,
                 singleLine = true,
+                maxChars = 40,
+                maxLines = 1,
                 textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary, fontSize = MaterialTheme.typography.body1.fontSize))
             )
 

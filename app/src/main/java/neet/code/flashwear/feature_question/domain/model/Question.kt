@@ -13,7 +13,7 @@ data class Question(
     @ColumnInfo(name = "answerTitle") var answerTitle: String? = null,
     @ColumnInfo(name = "answerContent") var answerContent: String? = null,
     @ColumnInfo(name = "answerSub") var answerSub: String? = null,
-    @ColumnInfo(name = "score") var score : Double? = 0.1,
+    @ColumnInfo(name = "score") var score : Double = 0.1,
     @ColumnInfo(name = "deckId") val deckId : Int? = -1,
     ){
     fun toCsvRow(): List<String>{

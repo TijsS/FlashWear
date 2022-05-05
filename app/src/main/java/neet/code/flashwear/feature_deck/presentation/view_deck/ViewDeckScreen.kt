@@ -97,7 +97,7 @@ fun ViewDeckScreen(
                     )
                 }
                 DeckQuestionCategory.Progress -> {
-                    if(viewModel.viewDeckState.value.avgScorePerX.isNotEmpty()){
+                    if(viewModel.viewDeckState.value.avgScoresLine.isNotEmpty()){
                         ProgressTab()
                     }
                 }

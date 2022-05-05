@@ -183,11 +183,12 @@ private fun getSelectedLine(viewModel: ViewDeckViewModel): MutableList<LinePlot.
 
     val line = mutableListOf<LinePlot.Line>()
     val selectedProgressGraph = viewModel.viewDeckState.value.selectedProgressGraph
+    val selectedTimeScale = viewModel.viewDeckState.value.selectedTimeScaleGraph
 
     if(selectedProgressGraph == ProgressGraph.Score){
         line.add(
             makeLine(
-                dataPoints = viewModel.viewDeckState.value.avgScorePerX,
+                dataPoints = viewModel.viewDeckState.value.avgScoresLine[selectedTimeScale]!!,
                 circleColor = circleColor,
                 highlightCircleColor = highlightCircleColor
             )
@@ -197,7 +198,7 @@ private fun getSelectedLine(viewModel: ViewDeckViewModel): MutableList<LinePlot.
     if(selectedProgressGraph == ProgressGraph.Time) {
         line.add(
             makeLine(
-                dataPoints = viewModel.viewDeckState.value.minutesSpendPerX,
+                dataPoints = viewModel.viewDeckState.value.minutesLearnedLine[selectedTimeScale]!!,
                 circleColor = circleColor,
                 highlightCircleColor = highlightCircleColor
             )
@@ -207,7 +208,7 @@ private fun getSelectedLine(viewModel: ViewDeckViewModel): MutableList<LinePlot.
     if(selectedProgressGraph == ProgressGraph.Questions) {
         line.add(
             makeLine(
-                dataPoints = viewModel.viewDeckState.value.avgScoreQuestionsPerX,
+                dataPoints = viewModel.viewDeckState.value.avgScoreQuestionsLine[selectedTimeScale]!!,
                 circleColor = circleColor,
                 highlightCircleColor = highlightCircleColor
             )

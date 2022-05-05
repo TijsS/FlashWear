@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -24,6 +25,11 @@ fun QuestionAnswerItem(
     navController: NavController,
     viewModel: ViewDeckViewModel = hiltViewModel()
 ){
+    var questionBigSizeSet = false
+    var answerBigSizeSet = false
+    val bigFontSize = MaterialTheme.typography.subtitle1.fontSize
+    val smallFontSize = MaterialTheme.typography.body2.fontSize
+
     Row(
         modifier = Modifier
             .combinedClickable(
@@ -45,7 +51,20 @@ fun QuestionAnswerItem(
                 .weight(3f)
                 .align(Alignment.CenterVertically)
         ) {
-            question.questionTitle?.let { DeckQuestion(it) }
+            if(!question.questionTitle.isNullOrBlank()){
+                DeckItemText(
+                    question.questionTitle!!,
+                    fontSize = bigFontSize
+                )
+                questionBigSizeSet = true
+            }
+
+            if(!question.questionContent.isNullOrBlank()){
+                DeckItemText(
+                    question.questionContent!!,
+                    fontSize = if (questionBigSizeSet) smallFontSize else bigFontSize
+                )
+            }
 
             TabRowDefaults.Divider(
                 color = Color.Red,
@@ -53,13 +72,20 @@ fun QuestionAnswerItem(
             )
 
             if(!question.answerTitle.isNullOrBlank()){
-                DeckAnswer(question.answerTitle!!)
+                DeckItemText(
+                    question.answerTitle!!,
+                    fontSize = bigFontSize
+                )
+                answerBigSizeSet = true
             }
 
             Spacer(modifier = Modifier.size(3.dp))
 
             if(!question.answerContent.isNullOrBlank()){
-                DeckAnswer(question.answerContent!!)
+                DeckItemText(
+                    question.answerContent!!,
+                    fontSize = if (answerBigSizeSet) smallFontSize else bigFontSize
+                )
             }
         }
 
@@ -73,7 +99,7 @@ fun QuestionAnswerItem(
         Column(
             Modifier.padding(5.dp)
         ) {
-            question.score?.let { CircularProgressAnimated(it) }
+            question.score.let { CircularProgressAnimated(it) }
         }
     }
 }
@@ -94,20 +120,13 @@ fun CircularProgressAnimated(score: Double) {
 }
 
 @Composable
-fun DeckQuestion(question: String) {
-    Text(question,
-        modifier = Modifier
-            .requiredHeightIn(max = 60.dp),
-        overflow = TextOverflow.Clip
-    )
-}
-
-@Composable
-fun DeckAnswer(answer: String) {
+fun DeckItemText(answer: String, fontSize: TextUnit) {
     Text(answer,
+        maxLines = 1,
         modifier = Modifier
             .requiredHeightIn(max = 60.dp),
-        overflow = TextOverflow.Ellipsis
+        overflow = TextOverflow.Ellipsis,
+        fontSize = fontSize
     )
 }
 

@@ -2,7 +2,9 @@ package neet.code.flashwear.feature_deck.presentation.view_deck
 
 import android.content.ContentValues.TAG
 import android.util.Log
-import androidx.compose.runtime.*
+import androidx.compose.material.SnackbarDuration
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,19 +16,15 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import neet.code.flashwear.feature_deck.domain.use_case.DecksUseCases
+import neet.code.flashwear.feature_deck.domain.util.dateToX
 import neet.code.flashwear.feature_learn_session.domain.model.AvgScoreDTO
 import neet.code.flashwear.feature_learn_session.domain.model.MinutesLearnedDTO
 import neet.code.flashwear.feature_learn_session.domain.use_case.LearnSessionUseCases
+import neet.code.flashwear.feature_question.domain.model.InvalidQuestionException
 import neet.code.flashwear.feature_question.domain.model.Question
 import neet.code.flashwear.feature_question.domain.use_case.QuestionsUseCases
-import neet.code.flashwear.feature_question.presentation.add_question.AddQuestionViewModel
 import neet.code.flashwear.feature_settings.domain.model.LearnStyle
 import neet.code.flashwear.feature_wearable.WearableUseCases
-import org.joda.time.Days
-import org.joda.time.LocalDate
-import org.joda.time.Months
-import org.joda.time.Weeks
-import java.lang.Exception
 import java.math.BigDecimal
 import java.math.RoundingMode
 import javax.inject.Inject
@@ -45,13 +43,8 @@ class ViewDeckViewModel @Inject constructor(
 
     private var recentlyDeleted: Question? = null
 
-    lateinit var avgScoresLine: MutableMap<TimeScaleGraph, List<AvgScoreDTO>>
-    lateinit var avgScoreQuestionsLine: MutableMap<TimeScaleGraph, List<AvgScoreDTO>>
-    lateinit var minutesLearned: MutableMap<TimeScaleGraph, List<MinutesLearnedDTO>>
-
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
-
 
     init {
         try {
@@ -72,14 +65,18 @@ class ViewDeckViewModel @Inject constructor(
             getQuestions()
 
             viewModelScope.launch {
-                avgScoresLine =
-                    learnSessionUseCases.getAvgScoreByDeck(_viewDeckState.value.deckId.toLong())
-                avgScoreQuestionsLine =
-                    learnSessionUseCases.getAvgScoreQuestionsByDeck(_viewDeckState.value.deckId.toLong())
-                minutesLearned =
-                    learnSessionUseCases.getMinutesLearnedByDeck(_viewDeckState.value.deckId.toLong())
+                val pair = learnSessionUseCases.getAvgScoreByDeck(_viewDeckState.value.deckId.toLong())
 
-                setLines()
+                _viewDeckState.value = viewDeckState.value.copy(
+                    avgScoresLine = pair.first,
+                    dateOfFirstLearnSession = pair.second
+                )
+                _viewDeckState.value = viewDeckState.value.copy(
+                    avgScoreQuestionsLine = learnSessionUseCases.getAvgScoreQuestionsByDeck(_viewDeckState.value.deckId.toLong())
+                )
+                _viewDeckState.value = viewDeckState.value.copy(
+                    minutesLearnedLine = learnSessionUseCases.getMinutesLearnedByDeck(_viewDeckState.value.deckId.toLong())
+                )
             }
         }catch (e: Exception){
             print(e)
@@ -134,7 +131,16 @@ class ViewDeckViewModel @Inject constructor(
                                 message =  "${event.importedQuestions.size} questions imported"
                             )
                         )
-                    } catch (exception: Exception) {
+                    }
+                    catch(invalidQuestion: InvalidQuestionException){
+                        _eventFlow.emit(
+                            UiEvent.ShowSnackbar(
+                                message = "${invalidQuestion.message}",
+                                duration = SnackbarDuration.Long
+                            )
+                        )
+                    }
+                    catch (exception: Exception) {
                         _eventFlow.emit(
                             UiEvent.ShowSnackbar(
                                 message =  "Not able to import"
@@ -152,7 +158,6 @@ class ViewDeckViewModel @Inject constructor(
                 _viewDeckState.value = viewDeckState.value.copy(
                     selectedTimeScaleGraph = event.selectedTimeScale
                 )
-                setLines()
             }
             is ViewDeckEvent.SyncWithWearable -> {
                 viewModelScope.launch {
@@ -188,30 +193,6 @@ class ViewDeckViewModel @Inject constructor(
         )
     }
 
-    private fun setLines(){
-        val selectedTimeScale = viewDeckState.value.selectedTimeScaleGraph
-        //get Avg Score per selected period
-        viewModelScope.launch {
-            if(!avgScoresLine[TimeScaleGraph.Day].isNullOrEmpty()) {
-                setAvgScoreLine(selectedTimeScale)
-            }
-        }
-
-        //get Avg Score of all questions per selected period
-        viewModelScope.launch {
-            if(!avgScoresLine[TimeScaleGraph.Day].isNullOrEmpty()) {
-                setAvgScoreAllQuestionsLine(selectedTimeScale)
-            }
-        }
-
-        //Get amount of time spend learning per selected period
-        viewModelScope.launch {
-            if (!minutesLearned[TimeScaleGraph.Day].isNullOrEmpty()) {
-                setTimeSpendLine(selectedTimeScale)
-            }
-        }
-    }
-
     fun getDateForX(x: Int): String?{
         return when(viewDeckState.value.selectedTimeScaleGraph){
             TimeScaleGraph.Day -> {
@@ -226,128 +207,6 @@ class ViewDeckViewModel @Inject constructor(
             }
         }
     }
-
-    /*
-    * converts: 12-04-2022;AvgScore = to DataPoint(x(days since first learnsession);AvgScore)
-    */
-    fun setAvgScoreLine(selectedTimeScale: TimeScaleGraph) {
-        //get the first day this deck got used
-        val dateOfFirstLearnSession = avgScoresLine[selectedTimeScale]?.first()
-            ?.getLocalDate(selectedTimeScale)
-
-        val datapoints: MutableList<DataPoint> = mutableListOf()
-
-        for (learnSession in avgScoresLine[selectedTimeScale]!!) {
-            val xAxis =
-                dateToX(
-                    dateOfFirstLearnSession = dateOfFirstLearnSession,
-                    dateOfLearnSession = learnSession.getLocalDate(selectedTimeScale),
-                    selectedTimeScale = selectedTimeScale
-                )
-
-            datapoints.add(
-                DataPoint(
-                    xAxis,
-                    learnSession.score.round().toFloat()
-                )
-            )
-        }
-        _viewDeckState.value = viewDeckState.value.copy(
-            avgScorePerX = datapoints,
-            dateOfFirstLearnSession = dateOfFirstLearnSession,
-        )
-    }
-
-    /*
-    * converts: 12-04-2022;AvgScoreOfQuestions = to DataPoint(x(days since first learnsession);AvgScoreOfQuestions)
-    */
-    fun setAvgScoreAllQuestionsLine(selectedTimeScale: TimeScaleGraph) {
-        //get the first day this deck got used
-        val dateOfFirstLearnSession = avgScoreQuestionsLine[selectedTimeScale]?.first()
-            ?.getLocalDate(selectedTimeScale)
-
-        val datapoints: MutableList<DataPoint> = mutableListOf()
-
-        for (learnSession in avgScoreQuestionsLine[selectedTimeScale]!!) {
-            val xAxis =
-                dateToX(
-                    dateOfFirstLearnSession = dateOfFirstLearnSession,
-                    dateOfLearnSession = learnSession.getLocalDate(selectedTimeScale),
-                    selectedTimeScale = selectedTimeScale
-                )
-
-            datapoints.add(
-                DataPoint(
-                    xAxis,
-                    learnSession.score.round().toFloat()
-                )
-            )
-        }
-        _viewDeckState.value = viewDeckState.value.copy(
-            avgScoreQuestionsPerX = datapoints,
-            dateOfFirstLearnSession = dateOfFirstLearnSession,
-        )
-    }
-
-    private fun Double.round(): Double = BigDecimal(this).setScale(1, RoundingMode.HALF_EVEN).toDouble()
-
-    /*
-    * converts: 12-04-2022;timeSpend = to DataPoint(x(days since first learnsession);timespend)
-    */
-    fun setTimeSpendLine(selectedTimeScale: TimeScaleGraph) {
-        //get the first day this deck got used
-        val dateOfFirstLearnSession =
-            minutesLearned[selectedTimeScale]?.first()
-                ?.getLocalDate(selectedTimeScale)
-
-        val datapoints: MutableList<DataPoint> = mutableListOf()
-
-        for (learnSession in minutesLearned[selectedTimeScale]!!) {
-            val xAxis =
-                dateToX(
-                    dateOfFirstLearnSession = dateOfFirstLearnSession,
-                    dateOfLearnSession = learnSession.getLocalDate(selectedTimeScale),
-                    selectedTimeScale = selectedTimeScale
-                )
-
-            //Add datapoint (days between start to current; in case of timescale day and week, minutes learned, in case of month hours learned)
-            datapoints.add(
-                DataPoint(
-                    xAxis,
-                    learnSession.minutesSpend.div(if(selectedTimeScale == TimeScaleGraph.Month) 60 else 1).toFloat()
-                )
-            )
-        }
-
-        _viewDeckState.value = viewDeckState.value.copy(
-            minutesSpendPerX = datapoints,
-            dateOfFirstLearnSession = dateOfFirstLearnSession
-        )
-    }
-
-    private fun dateToX(dateOfFirstLearnSession: LocalDate?, dateOfLearnSession: LocalDate, selectedTimeScale: TimeScaleGraph): Float{
-        return when(selectedTimeScale){
-            TimeScaleGraph.Day -> {
-                Days.daysBetween(
-                    dateOfFirstLearnSession,
-                    dateOfLearnSession
-                ).days.toFloat()
-            }
-            TimeScaleGraph.Week -> {
-                Weeks.weeksBetween(
-                    dateOfFirstLearnSession,
-                    dateOfLearnSession
-                ).weeks.toFloat()
-            }
-            TimeScaleGraph.Month -> {
-                Months.monthsBetween(
-                    dateOfFirstLearnSession,
-                    dateOfLearnSession
-                ).months.toFloat()
-            }
-        }
-    }
-
 
     fun getGraphSymbol(): String{
         return when(viewDeckState.value.selectedProgressGraph){
@@ -364,7 +223,7 @@ class ViewDeckViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data class ShowSnackbar(val message: String): UiEvent()
+        data class ShowSnackbar(val message: String, val duration: SnackbarDuration = SnackbarDuration.Short): UiEvent()
     }
 }
 

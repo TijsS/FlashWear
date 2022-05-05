@@ -1,35 +1,21 @@
 package neet.code.flashwear.feature_settings.presentation
 
-import android.content.ContentValues.TAG
-import android.util.Log
-import neet.code.flashwear.feature_question.presentation.add_question.AddQuestionEvent
-import neet.code.flashwear.feature_question.presentation.add_question.AddQuestionViewModel
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.ButtonDefaults.buttonColors
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Save
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import neet.code.flashwear.R
-import neet.code.flashwear.core.presentation.components.DefaultSnackbar
 import neet.code.flashwear.core.presentation.components.FlashWearDrawer
 import neet.code.flashwear.core.presentation.components.FlashWearTopBar
-import neet.code.flashwear.feature_deck.presentation.add_deck.components.TransparentHintTextField
-import neet.code.flashwear.feature_deck.presentation.decks.DecksEvent
 import neet.code.flashwear.feature_settings.domain.model.LearnStyle
 
 

@@ -1,5 +1,6 @@
 package neet.code.flashwear.feature_deck.presentation.view_deck.components
 
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -51,7 +52,6 @@ fun FloatingMenuButton(
             context.contentResolver.openInputStream(csv)?.use { inputStream ->
                 csvReader().open(inputStream){
                     readAllWithHeaderAsSequence().forEach { row ->
-
                         val question = Question(
                             questionTitle = row["QuestionTitle"],
                             questionContent = row["QuestionContent"],

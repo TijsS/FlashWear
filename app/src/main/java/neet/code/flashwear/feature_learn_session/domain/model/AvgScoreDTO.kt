@@ -4,7 +4,6 @@ import neet.code.flashwear.feature_deck.presentation.view_deck.TimeScaleGraph
 import org.joda.time.LocalDate
 
 data class AvgScoreDTO(
-//    val id: Int,
     val score: Double,
     val timeStart: Long
     ){

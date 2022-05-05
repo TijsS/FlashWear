@@ -1,16 +1,9 @@
 package neet.code.flashwear.feature_question.presentation.add_question
 
-import neet.code.flashwear.feature_question.presentation.add_question.AddQuestionEvent
-import neet.code.flashwear.feature_question.presentation.add_question.AddQuestionViewModel
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -24,7 +17,7 @@ import kotlinx.coroutines.launch
 import neet.code.flashwear.R
 import neet.code.flashwear.core.presentation.components.FlashWearDrawer
 import neet.code.flashwear.core.presentation.components.FlashWearTopBar
-import neet.code.flashwear.feature_deck.presentation.add_deck.components.TransparentHintTextField
+import neet.code.flashwear.core.presentation.components.TransparentHintTextField
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -95,6 +88,7 @@ fun AddQuestionScreen(
                     viewModel.onEvent(AddQuestionEvent.EnteredQuestionTitle(it))
                 },
                 singleLine = false,
+                showSnackbar = showSnackbar,
                 textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary, fontSize = MaterialTheme.typography.body1.fontSize))
             )
 
@@ -107,6 +101,7 @@ fun AddQuestionScreen(
                     viewModel.onEvent(AddQuestionEvent.EnteredQuestionContent(it))
                 },
                 singleLine = false,
+                showSnackbar = showSnackbar,
                 textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary, fontSize = MaterialTheme.typography.body1.fontSize))
             )
 
@@ -120,6 +115,7 @@ fun AddQuestionScreen(
                     viewModel.onEvent(AddQuestionEvent.EnteredAnswerTitle(it))
                 },
                 singleLine = false,
+                showSnackbar = showSnackbar,
                 textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary, fontSize = MaterialTheme.typography.body1.fontSize))
             )
 
@@ -133,6 +129,7 @@ fun AddQuestionScreen(
                     viewModel.onEvent(AddQuestionEvent.EnteredAnswerContent(it))
                 },
                 singleLine = false,
+                showSnackbar = showSnackbar,
                 textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary, fontSize = MaterialTheme.typography.body1.fontSize))
             )
 
@@ -141,11 +138,14 @@ fun AddQuestionScreen(
 
             TransparentHintTextField(
                 text = questionState.answerSub,
+                maxChars = 100,
+                maxLines = 2,
                 label = stringResource(R.string.answer_sub),
                 onValueChange = {
                     viewModel.onEvent(AddQuestionEvent.EnteredAnswerSub(it))
                 },
                 singleLine = false,
+                showSnackbar = showSnackbar,
                 textStyle = MaterialTheme.typography.h5.plus(TextStyle(color = MaterialTheme.colors.onPrimary, fontSize = MaterialTheme.typography.body1.fontSize)),
             )
         }

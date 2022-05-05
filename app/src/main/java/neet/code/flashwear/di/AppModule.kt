@@ -39,7 +39,9 @@ object AppModule {
             app,
             FlashWearDatabase::class.java,
             FlashWearDatabase.DATABASE_NAME
-        )   .addCallback(CALLBACK)
+        )
+            .fallbackToDestructiveMigration()
+            .addCallback(CALLBACK)
             .build()
     }
 

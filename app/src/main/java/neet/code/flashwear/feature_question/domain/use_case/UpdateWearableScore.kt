@@ -24,21 +24,20 @@ class UpdateWearableScore(
         when(questionResult){
             "+" -> {
                 //score = score * 115% (add 15% to the score)
-                newScore = question.score?.times(StartLearnSessionViewModel.CORRECT_MODIFIER)
-                    ?.let { min(it.round(), 1.0) }!!
+                newScore = question.score.times(StartLearnSessionViewModel.CORRECT_MODIFIER).let { min(it.round(), 1.0) }
             }
             "=" -> {
                 //score = score * 95% (subtract 5% from the score)
-                newScore = question.score?.times(StartLearnSessionViewModel.HALF_CORRECT_MODIFIER)?.round()
-                    ?.let { max(it, 0.0999) }!!
+                newScore = question.score.times(StartLearnSessionViewModel.HALF_CORRECT_MODIFIER).round().let { max(it, 0.0999) }
             }
             "-" -> {
                 //score = score * 80% (subtract 20% from the score)
-                newScore = question.score?.times(StartLearnSessionViewModel.WRONG_MODIFIER)?.round()
-                    ?.let { max(it, 0.0999) }!!
+                newScore = question.score.times(StartLearnSessionViewModel.WRONG_MODIFIER).round().let { max(it, 0.0999) }
             }
         }
-        question.score = newScore
+        if (newScore != null) {
+            question.score = newScore
+        }
 
         repository.updateQuestion(question)
         wearableUseCases.syncQuestion(question)

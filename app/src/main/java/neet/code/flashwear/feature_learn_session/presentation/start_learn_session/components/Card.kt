@@ -42,7 +42,7 @@ fun Card(
             ,
             onTextLayout = { textLayoutResult ->
                 if (textLayoutResult.didOverflowHeight) {
-                    size.value=size.value* 0.9f
+                    size.value=size.value* 0.85f
                 }
             }
         )

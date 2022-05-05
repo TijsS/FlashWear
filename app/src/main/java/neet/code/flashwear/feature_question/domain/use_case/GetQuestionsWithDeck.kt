@@ -20,15 +20,15 @@ class GetQuestionsWithDeck(
     suspend operator fun invoke(deckId: Int, givenLearnStyle: LearnStyle? = null): List<Question> {
         val settings = settingsRepository.getSettings().first()
 
-        when (givenLearnStyle ?: settings.learnStyle){
+        return when (givenLearnStyle ?: settings.learnStyle){
             LearnStyle.Revise -> {
-                return repository.getOldQuestionsByDeck(deckId).shuffled()
+                repository.getOldQuestionsByDeck(deckId).shuffled()
             }
             LearnStyle.Random -> {
-                return repository.getQuestionsByDeck(deckId).shuffled()
+                repository.getQuestionsByDeck(deckId).shuffled()
             }
             LearnStyle.New -> {
-                return repository.getNewQuestionsByDeck(deckId).shuffled()
+                repository.getNewQuestionsByDeck(deckId).shuffled()
             }
         }
     }

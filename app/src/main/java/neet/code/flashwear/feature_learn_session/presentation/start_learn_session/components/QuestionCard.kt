@@ -48,7 +48,7 @@ fun QuestionCard(
                     startLearnSessionState.currentQuestion?.questionTitle?.let { questionTitle ->
                         Card(
                             text = questionTitle,
-                            maxLines = 2,
+                            maxLines = 4,
                             paddingValues = PaddingValues(top = 8.dp, bottom = 15.dp),
                             size = sizeTitle,
                         )
@@ -60,7 +60,7 @@ fun QuestionCard(
                     startLearnSessionState.currentQuestion?.questionContent?.let { questionContent ->
                         Card(
                             text = questionContent,
-                            maxLines = 3,
+                            maxLines = 4,
                             paddingValues = PaddingValues(bottom = 8.dp),
                             size = sizeContent
                         )

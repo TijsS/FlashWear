@@ -124,7 +124,9 @@ class StartLearnSessionViewModel @Inject constructor(
         }
 
         //update the question in the currentQuestionBatch list with the new changed score
-        _learnSession.value.currentQuestionsBatch[_learnSession.value.currentQuestionsBatch.indexOf(_learnSession.value.currentQuestion)].score = newScore
+        if (newScore != null) {
+            _learnSession.value.currentQuestionsBatch[_learnSession.value.currentQuestionsBatch.indexOf(_learnSession.value.currentQuestion)].score = newScore
+        }
 
         setNextQuestion()
     }

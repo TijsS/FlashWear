@@ -38,6 +38,10 @@ class ViewQuestionViewModel @Inject constructor(
                 _questionState.value = questionState.value.copy(
                     question = questionUseCases.getQuestionById(questionId)
                 )
+                //display as 1-100 instead of 0.1 - 1.0
+                _questionState.value = questionState.value.copy(
+                    question = _questionState.value.question?.score?.let { questionState.value.question?.copy(score = it.times(100)) }
+                )
             }
         }
     }
@@ -79,7 +83,7 @@ class ViewQuestionViewModel @Inject constructor(
                     try {
                         questionState.value.question?.let {
                             questionUseCases.updateQuestion(
-                                question = it
+                                question = it.copy(score = it.score.div(100))
                             )
                         }
                         _eventFlow.emit(

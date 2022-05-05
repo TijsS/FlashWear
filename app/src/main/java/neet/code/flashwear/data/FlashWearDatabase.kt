@@ -18,7 +18,7 @@ import java.util.*
 
 @Database(
     entities = [Deck::class, Question::class, LearnSession::class, Settings::class],
-    version = 1
+    version = 2
 )
 @TypeConverters(Converters::class)
 abstract class FlashWearDatabase: RoomDatabase(){

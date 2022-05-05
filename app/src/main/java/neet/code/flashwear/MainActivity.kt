@@ -29,7 +29,6 @@ import neet.code.flashwear.feature_learn_session.presentation.start_learn_sessio
 import neet.code.flashwear.feature_question.presentation.view_question.ViewQuestionScreen
 import neet.code.flashwear.feature_settings.presentation.SettingsScreen
 
-import neet.code.flashwear.ui.progress.ProgressBody
 import neet.code.flashwear.ui.theme.FlashWearTheme
 
 
@@ -82,11 +81,6 @@ fun FlashWearNavHost(navController: NavHostController, modifier: Modifier = Modi
             }
 
             composable(route = Screen.ProgressScreen.route) {
-                ProgressBody(
-                    navController = navController,
-                    showSnackbar = { message, duration ->
-                        appState.showSnackbar(message = message, "dismiss", duration = duration)
-                    })
             }
 
             composable(route = Screen.SettingsScreen.route) {

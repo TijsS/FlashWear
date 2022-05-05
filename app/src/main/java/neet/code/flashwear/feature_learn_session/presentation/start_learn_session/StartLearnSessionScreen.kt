@@ -114,7 +114,6 @@ fun ReturnTrigger(
     viewModel: StartLearnSessionViewModel,
     navController: NavController,
 ) {
-    val noQuestionsAvailableMessage = stringResource(R.string.no_questions_available_message)
     if(viewModel.learnSession.value.finished){
         navController.navigate(
             Screen.ViewDeckScreen.route +
