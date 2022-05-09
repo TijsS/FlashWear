@@ -127,8 +127,7 @@ fun FloatingMenuButton(
                 FloatingMenuButtonItem(
                     viewModel = viewModel,
                     onClick = {
-                        viewModel.onEvent(ViewDeckEvent.DeleteDeck)
-                        navController.navigate(Screen.DecksScreen.route)
+                        viewModel.onEvent(ViewDeckEvent.ToggleDeleteDeckBox)
                               },
                     text = stringResource(R.string.delete),
                     imageVector = Icons.Filled.Remove

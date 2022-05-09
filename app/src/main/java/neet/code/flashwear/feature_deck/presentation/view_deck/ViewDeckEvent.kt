@@ -10,6 +10,8 @@ sealed class ViewDeckEvent {
     data class SelectedTimeScale(val selectedTimeScale: TimeScaleGraph): ViewDeckEvent()
 
     object SyncWithWearable: ViewDeckEvent()
+    object CloseDeleteBox: ViewDeckEvent()
+    object ToggleDeleteDeckBox: ViewDeckEvent()
     object DeleteDeck: ViewDeckEvent()
     object RestoreQuestion: ViewDeckEvent()
     object ToggleActionMenu: ViewDeckEvent()

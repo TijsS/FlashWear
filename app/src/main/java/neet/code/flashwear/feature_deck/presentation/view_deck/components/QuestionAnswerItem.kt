@@ -34,10 +34,16 @@ fun QuestionAnswerItem(
         modifier = Modifier
             .combinedClickable(
                 onClick = {
-                    if (viewModel.viewDeckState.value.questionIsHeldForDelete) {
-                        viewModel.onEvent(ViewDeckEvent.ToggleDeleteQuestion)
-                    } else {
-                        navController.navigate("${Screen.ViewQuestionScreen.route}?questionId=${question.id}")
+                    when {
+                        viewModel.viewDeckState.value.showDeleteDeckBox -> {
+                            viewModel.onEvent(ViewDeckEvent.CloseDeleteBox)
+                        }
+                        viewModel.viewDeckState.value.questionIsHeldForDelete -> {
+                            viewModel.onEvent(ViewDeckEvent.ToggleDeleteQuestion)
+                        }
+                        else -> {
+                            navController.navigate("${Screen.ViewQuestionScreen.route}?questionId=${question.id}")
+                        }
                     }
                 },
                 onLongClick = {

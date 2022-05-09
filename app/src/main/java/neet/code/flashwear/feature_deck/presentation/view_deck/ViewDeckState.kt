@@ -1,8 +1,6 @@
 package neet.code.flashwear.feature_deck.presentation.view_deck
 
 import com.madrapps.plot.line.DataPoint
-import neet.code.flashwear.feature_learn_session.domain.model.AvgScoreDTO
-import neet.code.flashwear.feature_learn_session.domain.model.MinutesLearnedDTO
 import neet.code.flashwear.feature_question.domain.model.Question
 import org.joda.time.LocalDate
 
@@ -13,9 +11,10 @@ data class ViewDeckState (
 
     val isFloatingMenuVisible: Boolean = false,
     val questionIsHeldForDelete: Boolean = false,
-    val selectedTab: DeckQuestionCategory = DeckQuestionCategory.Questions,
-    val categories: List<DeckQuestionCategory> = emptyList(),
+    val selectedTab: DeckCategory = DeckCategory.Questions,
+    val categories: List<DeckCategory> = emptyList(),
     val showImportedQuestionsMessage: Boolean = false,
+    val showDeleteDeckBox: Boolean = false,
     val importedQuestionsMessage: String = "",
 
     var avgScoresLine: Map<TimeScaleGraph, List<DataPoint>> = mapOf(),
@@ -27,7 +26,7 @@ data class ViewDeckState (
     var selectedTimeScaleGraph: TimeScaleGraph = TimeScaleGraph.Day,
 )
 
-enum class DeckQuestionCategory{
+enum class DeckCategory{
     Questions, Progress
 }
 

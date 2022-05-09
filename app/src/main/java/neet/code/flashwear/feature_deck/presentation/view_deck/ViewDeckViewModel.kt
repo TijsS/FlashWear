@@ -8,7 +8,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.madrapps.plot.line.DataPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -16,17 +15,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import neet.code.flashwear.feature_deck.domain.use_case.DecksUseCases
-import neet.code.flashwear.feature_deck.domain.util.dateToX
-import neet.code.flashwear.feature_learn_session.domain.model.AvgScoreDTO
-import neet.code.flashwear.feature_learn_session.domain.model.MinutesLearnedDTO
 import neet.code.flashwear.feature_learn_session.domain.use_case.LearnSessionUseCases
 import neet.code.flashwear.feature_question.domain.model.InvalidQuestionException
 import neet.code.flashwear.feature_question.domain.model.Question
 import neet.code.flashwear.feature_question.domain.use_case.QuestionsUseCases
 import neet.code.flashwear.feature_settings.domain.model.LearnStyle
 import neet.code.flashwear.feature_wearable.WearableUseCases
-import java.math.BigDecimal
-import java.math.RoundingMode
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,8 +45,8 @@ class ViewDeckViewModel @Inject constructor(
             savedStateHandle.get<Int>("deckId")?.let { deckId ->
                 _viewDeckState.value = viewDeckState.value.copy(
                     deckId = deckId,
-                    categories = DeckQuestionCategory.values().asList(),
-                    selectedTab = DeckQuestionCategory.Questions
+                    categories = DeckCategory.values().asList(),
+                    selectedTab = DeckCategory.Questions
                 )
             }
 
@@ -97,6 +91,18 @@ class ViewDeckViewModel @Inject constructor(
                     questionIsHeldForDelete = !viewDeckState.value.questionIsHeldForDelete
                 )
             }
+            is ViewDeckEvent.ToggleDeleteDeckBox -> {
+                //toggle the showDeleteDeckBox state value
+                _viewDeckState.value = viewDeckState.value.copy(
+                    showDeleteDeckBox = !viewDeckState.value.showDeleteDeckBox
+                )
+            }
+            is ViewDeckEvent.CloseDeleteBox -> {
+                //toggle the showDeleteDeckBox state value
+                _viewDeckState.value = viewDeckState.value.copy(
+                    showDeleteDeckBox = false
+                )
+            }
             is ViewDeckEvent.DeleteQuestion -> {
                 viewModelScope.launch {
                     Log.i(TAG, "deleted question: ${event.question.questionTitle}")
@@ -108,7 +114,6 @@ class ViewDeckViewModel @Inject constructor(
                 viewModelScope.launch {
                     Log.i(TAG, "deleted deck")
                     decksUseCases.deleteDeck(_viewDeckState.value.deckId)
-                    //TODO confirmation popup
                     _eventFlow.emit(
                         UiEvent.ShowSnackbar(
                             message = "DeletedDeck"
@@ -187,7 +192,7 @@ class ViewDeckViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun onCategorySelected(category: DeckQuestionCategory) {
+    fun onCategorySelected(category: DeckCategory) {
         _viewDeckState.value = viewDeckState.value.copy(
             selectedTab = category
         )

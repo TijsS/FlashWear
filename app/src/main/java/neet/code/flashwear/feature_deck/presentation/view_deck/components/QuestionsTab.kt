@@ -39,101 +39,101 @@ fun QuestionsTab(
     val questionDeletedMessage = stringResource(R.string.question_deleted_message)
     val questionDeletedActionMessage = stringResource(R.string.question_deleted_action_message)
 
-    if(viewDeckState.questions.isNotEmpty()) {
-        Box(
 
-        ){
-            Column(
-                Modifier.fillMaxWidth()
-            ) {
-                LazyVerticalGrid(
+    if (viewDeckState.questions.isNotEmpty()) {
+        Column(
+            Modifier.fillMaxWidth()
+        ) {
+            LazyVerticalGrid(
                 columns = GridCells.Adaptive(minSize = 450.dp),
-                ) {
-                    items(
-                        count = viewDeckState.questions.size,
-                        key = null
-                    ) { questionIndex ->
+            ) {
+                items(
+                    count = viewDeckState.questions.size,
+                    key = null
+                ) { questionIndex ->
 
-                        val question = viewDeckState.questions[questionIndex]
+                    val question = viewDeckState.questions[questionIndex]
 
-                        val infiniteTransition = rememberInfiniteTransition()
-                        val scale by infiniteTransition.animateFloat(
-                            initialValue = 1f,
-                            targetValue = if (viewDeckState.questionIsHeldForDelete) 0.95f else 1f,
-                            animationSpec = infiniteRepeatable(
-                                animation = tween(1200),
-                                repeatMode = RepeatMode.Reverse
-                            )
+                    val infiniteTransition = rememberInfiniteTransition()
+                    val scale by infiniteTransition.animateFloat(
+                        initialValue = 1f,
+                        targetValue = if (viewDeckState.questionIsHeldForDelete) 0.95f else 1f,
+                        animationSpec = infiniteRepeatable(
+                            animation = tween(1200),
+                            repeatMode = RepeatMode.Reverse
                         )
+                    )
 
-                        Row() {
-                            //Scale the box for breathing effect, for deletion of question
-                            Box(
-                                modifier = Modifier
-                                    .scale(scale)
-                                    .weight(1f)
-                            ) {
-                                QuestionAnswerItem(
-                                    question = question,
-                                    navController = navController
+                    Row {
+                        //Scale the box for breathing effect, for deletion of question
+                        Box(
+                            modifier = Modifier
+                                .scale(scale)
+                                .weight(1f)
+                        ) {
+                            QuestionAnswerItem(
+                                question = question,
+                                navController = navController
+                            )
+                        }
+
+                        //Make Delete button visible when question is held
+                        AnimatedVisibility(
+                            visible = viewDeckState.questionIsHeldForDelete,
+                            enter = fadeIn(
+                                initialAlpha = 0f,
+                                animationSpec = tween(
+                                    durationMillis = 450,
+                                    easing = LinearEasing
                                 )
-                            }
-
-                            //Make Delete button visible when question is held
-                            AnimatedVisibility(
-                                visible = viewDeckState.questionIsHeldForDelete,
-                                enter = fadeIn(
-                                    initialAlpha = 0f,
-                                    animationSpec = tween(
-                                        durationMillis = 450,
-                                        easing = LinearEasing
-                                    )
-                                ) +
-                                        slideInHorizontally(
-                                            initialOffsetX = { 150 },
-                                            animationSpec = tween(
-                                                durationMillis = 300,
-                                                easing = LinearEasing
-                                            )
-                                        ),
-                                exit = fadeOut() +
-                                        slideOutHorizontally(
-                                            targetOffsetX = { 150 },
-                                            animationSpec = tween(
-                                                durationMillis = 300,
-                                                easing = LinearEasing
-                                            )
+                            ) +
+                                    slideInHorizontally(
+                                        initialOffsetX = { 150 },
+                                        animationSpec = tween(
+                                            durationMillis = 300,
+                                            easing = LinearEasing
                                         )
-                            ) {
-                                IconButton(
-                                    onClick = {
-                                        viewModel.onEvent(ViewDeckEvent.DeleteQuestion(question))
-                                        scope.launch {
-                                            val result = scaffoldState.snackbarHostState.showSnackbar(
+                                    ),
+                            exit = fadeOut() +
+                                    slideOutHorizontally(
+                                        targetOffsetX = { 150 },
+                                        animationSpec = tween(
+                                            durationMillis = 300,
+                                            easing = LinearEasing
+                                        )
+                                    )
+                        ) {
+                            IconButton(
+                                onClick = {
+                                    viewModel.onEvent(ViewDeckEvent.DeleteQuestion(question))
+                                    scope.launch {
+                                        val result =
+                                            scaffoldState.snackbarHostState.showSnackbar(
                                                 message = questionDeletedMessage,
                                                 actionLabel = questionDeletedActionMessage,
                                             )
-                                            if (result == SnackbarResult.ActionPerformed) {
-                                                viewModel.onEvent(ViewDeckEvent.RestoreQuestion)
-                                            }
+                                        if (result == SnackbarResult.ActionPerformed) {
+                                            viewModel.onEvent(ViewDeckEvent.RestoreQuestion)
                                         }
                                     }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Filled.Delete,
-                                        contentDescription = stringResource(R.string.delete)
-                                    )
                                 }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.Delete,
+                                    contentDescription = stringResource(R.string.delete)
+                                )
                             }
                         }
                     }
                 }
             }
-
-//            DeleteConfirmationBox()
         }
-    } else{
-        Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+
+    } else {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = stringResource(R.string.no_questions_message),

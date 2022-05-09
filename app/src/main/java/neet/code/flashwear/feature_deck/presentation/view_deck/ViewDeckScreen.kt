@@ -1,14 +1,10 @@
 package neet.code.flashwear.feature_deck.presentation.view_deck
 
-import android.content.res.Configuration
-import android.service.controls.ControlsProviderService.TAG
-import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,16 +12,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.collectLatest
 import neet.code.flashwear.R
 import neet.code.flashwear.core.presentation.components.FlashWearDrawer
 import neet.code.flashwear.core.presentation.components.FlashWearTopBar
-import neet.code.flashwear.feature_deck.presentation.add_deck.AddDeckViewModel
+import neet.code.flashwear.feature_deck.presentation.view_deck.components.DeleteConfirmationBox
 import neet.code.flashwear.feature_deck.presentation.view_deck.components.FloatingMenuButton
 import neet.code.flashwear.feature_deck.presentation.view_deck.components.ProgressTab
 import neet.code.flashwear.feature_deck.presentation.view_deck.components.QuestionsTab
-import neet.code.flashwear.ui.theme.FlashWearTheme
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -77,29 +71,42 @@ fun ViewDeckScreen(
         scaffoldState = scaffoldState
     ) {
 
-        Column() {
-            if (viewDeckState.categories.isNotEmpty()) {
-                QuestionCategoryTabs(
-                    categories = viewDeckState.categories,
-                    selectedCategory = viewDeckState.selectedTab,
-                    onCategorySelected = viewModel::onCategorySelected
-                )
-            }
-            when (viewDeckState.selectedTab) {
-
-                DeckQuestionCategory.Questions -> {
-                    QuestionsTab(
-                        viewDeckState = viewDeckState,
-                        navController = navController,
-                        viewModel = viewModel,
-                        scope = scope,
-                        scaffoldState = scaffoldState
-                    )
-                }
-                DeckQuestionCategory.Progress -> {
-                    if(viewModel.viewDeckState.value.avgScoresLine.isNotEmpty()){
-                        ProgressTab()
+        Column {
+            Box {
+                Column(modifier = Modifier
+                    .fillMaxSize()
+                    .clickable{
+                    viewModel.onEvent(ViewDeckEvent.CloseDeleteBox)
+                }) {
+                    if (viewDeckState.categories.isNotEmpty()) {
+                        DeckCategoryTabs(
+                            categories = viewDeckState.categories,
+                            selectedCategory = viewDeckState.selectedTab,
+                            onCategorySelected = viewModel::onCategorySelected
+                        )
                     }
+
+                    when (viewDeckState.selectedTab) {
+                        DeckCategory.Questions -> {
+                            QuestionsTab(
+                                viewDeckState = viewDeckState,
+                                navController = navController,
+                                viewModel = viewModel,
+                                scope = scope,
+                                scaffoldState = scaffoldState
+                            )
+                        }
+
+                        DeckCategory.Progress -> {
+                            if (viewModel.viewDeckState.value.avgScoresLine.isNotEmpty()) {
+                                ProgressTab()
+                            }
+                        }
+                    }
+                }
+
+                if (viewDeckState.showDeleteDeckBox) {
+                    DeleteConfirmationBox(navController)
                 }
             }
         }
@@ -107,10 +114,10 @@ fun ViewDeckScreen(
 }
 
 @Composable
-private fun QuestionCategoryTabs(
-    categories: List<DeckQuestionCategory>,
-    selectedCategory: DeckQuestionCategory,
-    onCategorySelected: (DeckQuestionCategory) -> Unit,
+private fun DeckCategoryTabs(
+    categories: List<DeckCategory>,
+    selectedCategory: DeckCategory,
+    onCategorySelected: (DeckCategory) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val selectedIndex = categories.indexOfFirst { it == selectedCategory }
@@ -133,8 +140,8 @@ private fun QuestionCategoryTabs(
                 text = {
                     Text(
                         text = when (category) {
-                            DeckQuestionCategory.Questions -> stringResource(R.string.questions)
-                            DeckQuestionCategory.Progress -> stringResource(R.string.progress)
+                            DeckCategory.Questions -> stringResource(R.string.questions)
+                            DeckCategory.Progress -> stringResource(R.string.progress)
                         },
                         style = MaterialTheme.typography.body2
                     )
