@@ -1,11 +1,10 @@
 package neet.code.flashwear.feature_learn_session.domain.use_case
 
-import android.util.Log
 import com.madrapps.plot.line.DataPoint
 import neet.code.flashwear.feature_deck.domain.util.dateToX
 import neet.code.flashwear.feature_deck.domain.util.roundDouble
-import neet.code.flashwear.feature_deck.presentation.view_deck.TimeScaleGraph
 import neet.code.flashwear.feature_learn_session.domain.repository.LearnSessionRepository
+import neet.code.flashwear.feature_progress.presentation.progress.TimeScaleGraph
 import org.joda.time.LocalDate
 
 class GetAvgScoreByDeck(

@@ -17,10 +17,13 @@ interface LearnSessionDao : BaseDao<LearnSession> {
     @Query("SELECT * FROM learnSession")
     fun getAll(): Flow<List<LearnSession>>
 
-
     @Transaction
     @Query("SELECT * FROM learnSession where learnSession.id = :id")
     fun getById(id: Long): LearnSession
+
+    @Transaction
+    @Query("DELETE FROM learnSession where learnSession.deckId = :id")
+    suspend fun deleteByDeckId(id: Int)
 
     @Transaction
     @Query("""select round(avg(score),1) as score, timeStart
@@ -42,5 +45,11 @@ interface LearnSessionDao : BaseDao<LearnSession> {
         where deckId = :id
         group by strftime(:timeScale, timeStart/ 1000, 'unixepoch')""")
     suspend fun getMinutesLearnedByDeck(id: Long, timeScale: String): List<MinutesLearnedDTO>
+
+    @Transaction
+    @Query("""select round(cast((sum(timeEnd-timeStart)) as REAL)  / 1000/60, 3) as minutesSpend, timeStart
+        from learnsession 
+        group by strftime(:timeScale, timeStart/ 1000, 'unixepoch')""")
+    suspend fun getMinutesLearnedTotal(timeScale: String): List<MinutesLearnedDTO>
 
 }

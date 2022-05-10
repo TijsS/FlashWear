@@ -29,8 +29,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrapps.plot.line.DataPoint
 import com.madrapps.plot.line.LineGraph
 import com.madrapps.plot.line.LinePlot
-import neet.code.flashwear.feature_deck.presentation.view_deck.ProgressGraph
+import neet.code.flashwear.feature_deck.presentation.view_deck.ProgressDeckGraph
 import neet.code.flashwear.feature_deck.presentation.view_deck.ViewDeckViewModel
+import neet.code.flashwear.feature_progress.presentation.progress.ProgressGraph
 import kotlin.math.roundToInt
 
 
@@ -43,7 +44,7 @@ fun ProgressTab(
     Column(Modifier.onGloballyPositioned {
         totalWidth.value = it.size.width
     }) {
-        GraphSelectButtons(viewModel)
+        DeckGraphSelectButtons(viewModel)
 
         val xOffset = remember { mutableStateOf(0f) }
         val cardWidth = remember { mutableStateOf(0) }
@@ -185,7 +186,7 @@ private fun getSelectedLine(viewModel: ViewDeckViewModel): MutableList<LinePlot.
     val selectedProgressGraph = viewModel.viewDeckState.value.selectedProgressGraph
     val selectedTimeScale = viewModel.viewDeckState.value.selectedTimeScaleGraph
 
-    if(selectedProgressGraph == ProgressGraph.Score){
+    if(selectedProgressGraph == ProgressDeckGraph.Score){
         line.add(
             makeLine(
                 dataPoints = viewModel.viewDeckState.value.avgScoresLine[selectedTimeScale]!!,
@@ -195,7 +196,7 @@ private fun getSelectedLine(viewModel: ViewDeckViewModel): MutableList<LinePlot.
         )
     }
 
-    if(selectedProgressGraph == ProgressGraph.Time) {
+    if(selectedProgressGraph == ProgressDeckGraph.Time) {
         line.add(
             makeLine(
                 dataPoints = viewModel.viewDeckState.value.minutesLearnedLine[selectedTimeScale]!!,
@@ -205,7 +206,7 @@ private fun getSelectedLine(viewModel: ViewDeckViewModel): MutableList<LinePlot.
         )
     }
 
-    if(selectedProgressGraph == ProgressGraph.Questions) {
+    if(selectedProgressGraph == ProgressDeckGraph.Questions) {
         line.add(
             makeLine(
                 dataPoints = viewModel.viewDeckState.value.avgScoreQuestionsLine[selectedTimeScale]!!,
@@ -242,7 +243,5 @@ private fun makeLine(
         ),
     )
 }
-
-
 
 internal fun Dp.toPx(density: Density) = value * density.density

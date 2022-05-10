@@ -1,12 +1,11 @@
 package neet.code.flashwear.feature_learn_session.domain.model
 
 
-import neet.code.flashwear.feature_deck.presentation.view_deck.TimeScaleGraph
+import neet.code.flashwear.feature_progress.presentation.progress.TimeScaleGraph
 import org.joda.time.LocalDate
 
 
 class MinutesLearnedDTO (
-//    val id: Int,
     val minutesSpend: Long,
     val timeStart: Long
 ){

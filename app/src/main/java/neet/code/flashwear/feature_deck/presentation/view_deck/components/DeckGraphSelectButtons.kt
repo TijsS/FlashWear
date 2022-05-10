@@ -9,13 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import neet.code.flashwear.feature_deck.presentation.view_deck.ProgressGraph
-import neet.code.flashwear.feature_deck.presentation.view_deck.TimeScaleGraph
+import neet.code.flashwear.feature_deck.presentation.view_deck.ProgressDeckGraph
 import neet.code.flashwear.feature_deck.presentation.view_deck.ViewDeckEvent
 import neet.code.flashwear.feature_deck.presentation.view_deck.ViewDeckViewModel
+import neet.code.flashwear.feature_progress.presentation.progress.ProgressGraph
+import neet.code.flashwear.feature_progress.presentation.progress.TimeScaleGraph
 
 @Composable
-fun GraphSelectButtons(viewModel: ViewDeckViewModel) {
+fun DeckGraphSelectButtons(viewModel: ViewDeckViewModel) {
     Column() {
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
@@ -23,7 +24,7 @@ fun GraphSelectButtons(viewModel: ViewDeckViewModel) {
                 .fillMaxWidth()
                 .padding(top = 10.dp),
         ) {
-            for(option in ProgressGraph.values()) {
+            for(option in ProgressDeckGraph.values()) {
                 TextButton(
                     onClick = { viewModel.onEvent(ViewDeckEvent.SelectProgressGraph(option)) },
                     modifier = Modifier.padding(4.dp),

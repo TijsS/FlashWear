@@ -16,6 +16,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import neet.code.flashwear.feature_deck.domain.use_case.DecksUseCases
 import neet.code.flashwear.feature_learn_session.domain.use_case.LearnSessionUseCases
+import neet.code.flashwear.feature_progress.presentation.progress.ProgressGraph
+import neet.code.flashwear.feature_progress.presentation.progress.TimeScaleGraph
 import neet.code.flashwear.feature_question.domain.model.InvalidQuestionException
 import neet.code.flashwear.feature_question.domain.model.Question
 import neet.code.flashwear.feature_question.domain.use_case.QuestionsUseCases
@@ -215,13 +217,13 @@ class ViewDeckViewModel @Inject constructor(
 
     fun getGraphSymbol(): String{
         return when(viewDeckState.value.selectedProgressGraph){
-            ProgressGraph.Questions -> {
+            ProgressDeckGraph.Questions -> {
                 return "%"
             }
-            ProgressGraph.Score -> {
+            ProgressDeckGraph.Score -> {
                 "%"
             }
-            ProgressGraph.Time -> {
+            ProgressDeckGraph.Time -> {
                 if(viewDeckState.value.selectedTimeScaleGraph == TimeScaleGraph.Month) "h" else "min"
             }
         }

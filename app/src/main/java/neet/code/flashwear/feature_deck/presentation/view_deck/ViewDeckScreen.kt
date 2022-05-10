@@ -1,6 +1,7 @@
 package neet.code.flashwear.feature_deck.presentation.view_deck
 
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -8,6 +9,7 @@ import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -75,9 +77,13 @@ fun ViewDeckScreen(
             Box {
                 Column(modifier = Modifier
                     .fillMaxSize()
-                    .clickable{
+                    .clickable(
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() }
+                    ){
                     viewModel.onEvent(ViewDeckEvent.CloseDeleteBox)
-                }) {
+                    }
+                ) {
                     if (viewDeckState.categories.isNotEmpty()) {
                         DeckCategoryTabs(
                             categories = viewDeckState.categories,

@@ -1,6 +1,7 @@
 package neet.code.flashwear.feature_learn_session.presentation.start_learn_session
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -115,11 +116,10 @@ fun ReturnTrigger(
     navController: NavController,
 ) {
     if(viewModel.learnSession.value.finished){
-        navController.navigate(
-            Screen.ViewDeckScreen.route +
-                    "?deckId=${viewModel.learnSession.value.learnSession?.deckId}" +
-                    "?deckName=${viewModel.learnSession.value.deckName}"
-        )
+
+        Log.i("TAG", "learnsession finished DDDDDDDDSAFDSAFAASd")
+        navController.popBackStack()
+
         viewModel.learnSession.value.finished = false
     }
 }

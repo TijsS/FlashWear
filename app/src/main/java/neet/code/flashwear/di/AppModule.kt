@@ -85,7 +85,7 @@ object AppModule {
             getDecks = GetDecks(repository),
             addDeck = AddDeck(repository, wearableUseCases, learnSessionUseCases),
             getDecksForWearable = GetDecksForWearable(repository),
-            deleteDeck = DeleteDeck(repository, questionRepository , wearableUseCases)
+            deleteDeck = DeleteDeck(repository, questionRepository, learnSessionUseCases, wearableUseCases)
         )
     }
 
@@ -126,6 +126,8 @@ object AppModule {
             getAvgScoreByDeck = GetAvgScoreByDeck(repository),
             getMinutesLearnedByDeck = GetMinutesLearnedByDeck(repository),
             getAvgScoreQuestionsByDeck = GetAvgScoreQuestionsByDeck(repository),
+            getTimeSpentTotal = GetTimeSpentTotal(repository),
+            deleteLearnSessionWithDeckId = DeleteLearnSessionWithDeckId(repository)
         )
     }
 

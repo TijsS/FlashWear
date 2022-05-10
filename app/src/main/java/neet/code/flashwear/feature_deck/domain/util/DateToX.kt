@@ -1,6 +1,6 @@
 package neet.code.flashwear.feature_deck.domain.util
 
-import neet.code.flashwear.feature_deck.presentation.view_deck.TimeScaleGraph
+import neet.code.flashwear.feature_progress.presentation.progress.TimeScaleGraph
 import org.joda.time.Days
 import org.joda.time.LocalDate
 import org.joda.time.Months

@@ -42,7 +42,8 @@ fun DeleteConfirmationBox(
                     Button(
                         onClick = {
                             viewModel.onEvent(ViewDeckEvent.DeleteDeck)
-                            navController.navigate(Screen.DecksScreen.route)
+//                            navController.navigate(Screen.DecksScreen.route)
+                            navController.popBackStack(Screen.DecksScreen.route, false)
                         },
                         Modifier.padding(5.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colors.primary)

@@ -6,4 +6,6 @@ data class LearnSessionUseCases (
     val updateLearnSession: UpdateLearnSession,
     val getMinutesLearnedByDeck: GetMinutesLearnedByDeck,
     val getAvgScoreQuestionsByDeck: GetAvgScoreQuestionsByDeck,
+    val getTimeSpentTotal: GetTimeSpentTotal,
+    val deleteLearnSessionWithDeckId: DeleteLearnSessionWithDeckId,
 )

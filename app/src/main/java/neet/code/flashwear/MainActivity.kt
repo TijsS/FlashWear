@@ -26,6 +26,7 @@ import neet.code.flashwear.feature_deck.presentation.decks.DecksScreen
 import neet.code.flashwear.feature_deck.presentation.view_deck.ViewDeckScreen
 import neet.code.flashwear.feature_question.presentation.add_question.AddQuestionScreen
 import neet.code.flashwear.feature_learn_session.presentation.start_learn_session.StartLearnSessionScreen
+import neet.code.flashwear.feature_progress.presentation.progress.ProgressScreen
 import neet.code.flashwear.feature_question.presentation.view_question.ViewQuestionScreen
 import neet.code.flashwear.feature_settings.presentation.SettingsScreen
 
@@ -69,7 +70,8 @@ fun FlashWearNavHost(navController: NavHostController, modifier: Modifier = Modi
                     navController = navController,
                     showSnackbar = { message, duration ->
                         appState.showSnackbar(message = message, "dismiss", duration = duration)
-                    })
+                    }
+                )
             }
 
             composable(route = Screen.AddDeckScreen.route) {
@@ -77,10 +79,17 @@ fun FlashWearNavHost(navController: NavHostController, modifier: Modifier = Modi
                     navController = navController,
                     showSnackbar = { message, duration ->
                         appState.showSnackbar(message = message, "dismiss", duration = duration)
-                    })
+                    }
+                )
             }
 
             composable(route = Screen.ProgressScreen.route) {
+                ProgressScreen(
+                    navController = navController,
+                    showSnackbar = { message, duration ->
+                        appState.showSnackbar(message = message, "dismiss", duration = duration)
+                    }
+                )
             }
 
             composable(route = Screen.SettingsScreen.route) {
@@ -88,7 +97,8 @@ fun FlashWearNavHost(navController: NavHostController, modifier: Modifier = Modi
                     navController = navController,
                     showSnackbar = { message, duration ->
                         appState.showSnackbar(message = message, "dismiss", duration = duration)
-                    })
+                    }
+                )
             }
 
             composable(route = Screen.ViewDeckScreen.route + "?deckId={deckId}?deckName={deckName}",

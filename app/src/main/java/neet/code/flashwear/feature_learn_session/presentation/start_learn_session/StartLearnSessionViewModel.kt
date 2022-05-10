@@ -87,6 +87,7 @@ class StartLearnSessionViewModel @Inject constructor(
             is StartLearnSessionEvent.NextQuestion -> {
 
                 submitAnswer(event.value)
+                setNextQuestion()
 
                 _learnSession.value = learnSession.value.copy(
                     showAnswer = false,
@@ -127,8 +128,6 @@ class StartLearnSessionViewModel @Inject constructor(
         if (newScore != null) {
             _learnSession.value.currentQuestionsBatch[_learnSession.value.currentQuestionsBatch.indexOf(_learnSession.value.currentQuestion)].score = newScore
         }
-
-        setNextQuestion()
     }
 
     private fun setNextQuestion() {
