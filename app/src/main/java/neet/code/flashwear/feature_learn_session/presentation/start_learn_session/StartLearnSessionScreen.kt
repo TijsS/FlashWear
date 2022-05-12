@@ -43,12 +43,14 @@ fun StartLearnSessionScreen(
     val sizeSub = remember { mutableStateOf(value = 14.sp) }
     val sizeContent = remember { mutableStateOf(value = 20.sp) }
 
+    val context = LocalContext.current
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when(event) {
                 is StartLearnSessionViewModel.UiEvent.ShowSnackbar -> {
                     showSnackbar(
-                        event.message, SnackbarDuration.Short
+                        context.getString(event.message),
+                        SnackbarDuration.Short
                     )
                 }
             }

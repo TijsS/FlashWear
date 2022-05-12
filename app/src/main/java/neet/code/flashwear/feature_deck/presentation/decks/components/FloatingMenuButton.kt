@@ -48,9 +48,6 @@ fun FloatingMenuButton(viewModel: DeckViewModel, deckState: DecksState, navContr
                     viewModel = viewModel,
                     onClick = {
                         viewModel.onEvent(DecksEvent.SyncWithWearable)
-                        DeckViewModel.UiEvent.ShowSnackbar(
-                            message = "Synced"
-                        )
                     },
                     text = stringResource(R.string.sync),
                     imageVector = Icons.Filled.Watch

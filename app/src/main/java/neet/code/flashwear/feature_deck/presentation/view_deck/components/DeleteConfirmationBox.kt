@@ -9,9 +9,11 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import neet.code.flashwear.R
 import neet.code.flashwear.Screen
 import neet.code.flashwear.feature_deck.presentation.view_deck.ViewDeckEvent
 import neet.code.flashwear.feature_deck.presentation.view_deck.ViewDeckViewModel
@@ -36,19 +38,19 @@ fun DeleteConfirmationBox(
                 color = MaterialTheme.colors.onSecondary
             ) {
                 Column( horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Deleting is permanent, are you sure?",
+                    Text(
+                        stringResource(R.string.delete_warning),
                         modifier = Modifier.padding(10.dp, 15.dp),
                     )
                     Button(
                         onClick = {
                             viewModel.onEvent(ViewDeckEvent.DeleteDeck)
-//                            navController.navigate(Screen.DecksScreen.route)
                             navController.popBackStack(Screen.DecksScreen.route, false)
                         },
                         Modifier.padding(5.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colors.primary)
                     ) {
-                        Text(text = "confirm")
+                        Text(text = stringResource(R.string.confirm))
                     }
                 }
             }

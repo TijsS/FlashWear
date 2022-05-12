@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -57,7 +59,9 @@ fun FlashWearApp(){
 
 @Composable
 fun FlashWearNavHost(navController: NavHostController, modifier: Modifier = Modifier){
-    val appState: SnackbarDemoAppState = rememberSnackbarDemoAppState()
+    val context = LocalContext.current
+
+    val appState: SnackbarDemoAppState = rememberSnackbarDemoAppState(context)
 
     Box() {
         NavHost(
@@ -69,7 +73,7 @@ fun FlashWearNavHost(navController: NavHostController, modifier: Modifier = Modi
                 DecksScreen(
                     navController = navController,
                     showSnackbar = { message, duration ->
-                        appState.showSnackbar(message = message, "dismiss", duration = duration)
+                        appState.showSnackbar(message = message, R.string.dismiss, duration = duration)
                     }
                 )
             }
@@ -78,7 +82,7 @@ fun FlashWearNavHost(navController: NavHostController, modifier: Modifier = Modi
                 AddDeckScreen(
                     navController = navController,
                     showSnackbar = { message, duration ->
-                        appState.showSnackbar(message = message, "dismiss", duration = duration)
+                        appState.showSnackbar(message = message, R.string.dismiss, duration = duration)
                     }
                 )
             }
@@ -87,7 +91,7 @@ fun FlashWearNavHost(navController: NavHostController, modifier: Modifier = Modi
                 ProgressScreen(
                     navController = navController,
                     showSnackbar = { message, duration ->
-                        appState.showSnackbar(message = message, "dismiss", duration = duration)
+                        appState.showSnackbar(message = message, R.string.dismiss, duration = duration)
                     }
                 )
             }
@@ -96,7 +100,7 @@ fun FlashWearNavHost(navController: NavHostController, modifier: Modifier = Modi
                 SettingsScreen(
                     navController = navController,
                     showSnackbar = { message, duration ->
-                        appState.showSnackbar(message = message, "dismiss", duration = duration)
+                        appState.showSnackbar(message = message, R.string.dismiss, duration = duration)
                     }
                 )
             }
@@ -120,7 +124,7 @@ fun FlashWearNavHost(navController: NavHostController, modifier: Modifier = Modi
                 ViewDeckScreen(
                     navController = navController,
                     showSnackbar = { message, duration ->
-                        appState.showSnackbar(message = message, "dismiss", duration = duration)
+                        appState.showSnackbar(message = message, R.string.dismiss, duration = duration)
                     })
             }
 
@@ -137,7 +141,7 @@ fun FlashWearNavHost(navController: NavHostController, modifier: Modifier = Modi
                 AddQuestionScreen(
                     navController = navController,
                     showSnackbar = { message, duration ->
-                        appState.showSnackbar(message = message, "dismiss", duration = duration)
+                        appState.showSnackbar(message = message, R.string.dismiss, duration = duration)
                     })
             }
 
@@ -160,7 +164,7 @@ fun FlashWearNavHost(navController: NavHostController, modifier: Modifier = Modi
                 StartLearnSessionScreen(
                     navController = navController,
                     showSnackbar = { message, duration ->
-                        appState.showSnackbar(message = message, "dismiss", duration = duration)
+                        appState.showSnackbar(message = message, R.string.dismiss, duration = duration)
                     })
             }
 
@@ -177,7 +181,7 @@ fun FlashWearNavHost(navController: NavHostController, modifier: Modifier = Modi
                 ViewQuestionScreen(
                     navController = navController,
                     showSnackbar = { message, duration ->
-                        appState.showSnackbar(message = message, "dismiss", duration = duration)
+                        appState.showSnackbar(message = message, R.string.dismiss, duration = duration)
                     }
                 )
             }

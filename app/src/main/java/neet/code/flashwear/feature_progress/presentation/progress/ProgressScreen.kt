@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
@@ -27,6 +28,7 @@ import com.madrapps.plot.line.DataPoint
 import com.madrapps.plot.line.LineGraph
 import com.madrapps.plot.line.LinePlot
 import kotlinx.coroutines.flow.collectLatest
+import neet.code.flashwear.R
 import neet.code.flashwear.core.presentation.components.FlashWearDrawer
 import neet.code.flashwear.core.presentation.components.FlashWearTopBar
 import neet.code.flashwear.feature_deck.presentation.view_deck.ProgressDeckGraph
@@ -62,7 +64,7 @@ fun ProgressScreen(
             FlashWearTopBar(
                 state = scaffoldState,
                 scope = scope,
-                title = "Progress",
+                title = stringResource(R.string.progress),
                 withFunction = false,
             )
         },

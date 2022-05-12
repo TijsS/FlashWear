@@ -11,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import neet.code.flashwear.R
 import neet.code.flashwear.feature_learn_session.domain.model.LearnSession
 import neet.code.flashwear.feature_learn_session.domain.use_case.LearnSessionUseCases
 import neet.code.flashwear.feature_question.domain.model.Question
@@ -203,7 +204,7 @@ class StartLearnSessionViewModel @Inject constructor(
                 viewModelScope.launch {
                     _eventFlow.emit(
                         UiEvent.ShowSnackbar(
-                            message = "No questions available"
+                            message = R.string.no_questions_available_message
                         )
                     )
                 }
@@ -242,7 +243,7 @@ class StartLearnSessionViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data class ShowSnackbar(val message: String): UiEvent()
+        data class ShowSnackbar(val message: Int): UiEvent()
     }
 }
 

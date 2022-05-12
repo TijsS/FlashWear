@@ -79,11 +79,15 @@ class AddQuestionViewModel @Inject constructor(
                         )
                         _eventFlow.emit(UiEvent.SaveQuestion)
                     } catch(e: InvalidQuestionException) {
-                        _eventFlow.emit(
-                            UiEvent.ShowSnackbar(
-                                message = e.message ?: "Couldn't save question"
+                        val exception = e.message?.split("|")
+                        if (exception != null) {
+                            _eventFlow.emit(
+                                UiEvent.ShowSnackbar(
+                                    message = exception[0],
+                                    baseMessage = exception[1].toInt(),
+                                )
                             )
-                        )
+                        }
                     }
                 }
             }
@@ -91,7 +95,7 @@ class AddQuestionViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data class ShowSnackbar(val message: String): UiEvent()
+        data class ShowSnackbar(val message: String = "", val baseMessage: Int): UiEvent()
         object SaveQuestion: UiEvent()
     }
 }

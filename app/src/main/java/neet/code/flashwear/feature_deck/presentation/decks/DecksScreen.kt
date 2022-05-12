@@ -15,6 +15,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,7 +28,6 @@ import neet.code.flashwear.feature_deck.presentation.decks.components.DeckItem
 import neet.code.flashwear.feature_deck.presentation.decks.components.OrderSection
 import neet.code.flashwear.Screen
 import neet.code.flashwear.feature_deck.presentation.decks.components.FloatingMenuButton
-import neet.code.flashwear.feature_deck.presentation.view_deck.ViewDeckViewModel
 
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
@@ -41,12 +41,15 @@ fun DecksScreen(
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
 
+    val context = LocalContext.current
+
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when(event) {
                 is DeckViewModel.UiEvent.ShowSnackbar -> {
                     showSnackbar(
-                        event.message, SnackbarDuration.Short
+                        context.getString(event.message)
+                        , SnackbarDuration.Short
                     )
                 }
             }
@@ -81,7 +84,7 @@ fun DecksScreen(
         scaffoldState = scaffoldState
     ) {
         if(deckState.decks?.isNotEmpty() == true) {
-            Column() {
+            Column {
                 AnimatedVisibility(
                     visible = deckState.isOrderSectionVisible,
                     enter = fadeIn() + slideInVertically(),
@@ -106,7 +109,7 @@ fun DecksScreen(
                         key = null
                     )
                     { deckIndex ->
-                        DeckItem(navController, deckState.decks.get(deckIndex))
+                        DeckItem(navController, deckState.decks[deckIndex])
                     }
                 }
             }

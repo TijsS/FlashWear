@@ -1,5 +1,6 @@
 package neet.code.flashwear.feature_question.domain.use_case
 
+import neet.code.flashwear.R
 import neet.code.flashwear.feature_question.domain.model.InvalidQuestionException
 import neet.code.flashwear.feature_question.domain.model.Question
 import neet.code.flashwear.feature_question.domain.repository.QuestionRepository
@@ -18,70 +19,87 @@ class UpdateQuestion(
             question.score = 0.1
         }
 
-        if(question.answerTitle != null){
-            if(question.answerTitle.isNullOrBlank()){
-                question.answerTitle = null
-            }else{
-                if(question.answerTitle?.length!! > 200){
-                    throw InvalidQuestionException ("too long, max 200 chars, ${question.answerTitle}")
-                }
-                if (question.answerTitle?.lines()?.size!! > 3){
-                    throw InvalidQuestionException ("too many lines, max 3 lines, ${question.answerTitle}")
-                }
+        val answerTitle = question.answerTitle
+        if(answerTitle != null){
+            if(answerTitle.length > 200){
+                throw InvalidQuestionException (
+                    message = answerTitle.toString(),
+                    baseMessage = R.string.question_text_long
+                )
+            }
+            if (answerTitle.lines().size > 3){
+                throw InvalidQuestionException (
+                    message = answerTitle.toString(),
+                    baseMessage = R.string.question_lines_long
+                )
             }
         }
 
-        if(question.answerContent != null){
-            if(question.answerTitle.isNullOrBlank()){
-                question.answerTitle = null
-            }else {
-                if (question.answerContent?.length!! > 200) {
-                    throw InvalidQuestionException("too long, max 200 chars, ${question.answerContent}")
-                }
-                if (question.answerContent?.lines()?.size!! > 3) {
-                    throw InvalidQuestionException("too many lines, max 3 lines, ${question.answerContent}")
-                }
+        val answerContent = question.answerContent
+        if(answerContent != null){
+            if (answerContent.length > 200) {
+                throw InvalidQuestionException(
+                    message = answerContent.toString(),
+                    baseMessage = R.string.question_text_long
+                )
+            }
+            if (answerContent.lines().size > 3) {
+                throw InvalidQuestionException(
+                    message = answerContent.toString(),
+                    baseMessage = R.string.question_lines_long
+                )
             }
         }
 
-        if(question.answerSub != null){
-            if(question.answerTitle.isNullOrBlank()){
-                question.answerTitle = null
-            }else {
-                if (question.answerSub?.length!! > 100) {
-                    throw InvalidQuestionException("too long, max 100 chars, ${question.answerSub}")
-                }
-                if (question.answerSub?.lines()?.size!! > 2) {
-                    throw InvalidQuestionException("too many lines, max 2 lines, ${question.answerSub}")
-                }
+        val answerSub = question.answerSub
+        if(answerSub != null){
+            if (answerSub.length > 100) {
+                throw InvalidQuestionException(
+                    message = answerSub.toString(),
+                    baseMessage = R.string.question_text_long_sub
+                )
+            }
+            if (answerSub.lines().size > 2) {
+                throw InvalidQuestionException(
+                    message = answerSub.toString(),
+                    baseMessage = R.string.question_lines_long
+                )
             }
         }
 
-        if(question.questionTitle != null){
-            if(question.answerTitle.isNullOrBlank()){
-                question.answerTitle = null
-            }else {
-                if (question.questionTitle?.length!! > 200) {
-                    throw InvalidQuestionException("too long, max 200 chars, ${question.questionTitle}")
-                }
-                if (question.questionTitle?.lines()?.size!! > 3) {
-                    throw InvalidQuestionException("too many lines, max 3 lines, ${question.questionTitle}")
-                }
+        val questionTitle = question.questionTitle
+        if(questionTitle != null){
+            if (questionTitle.length > 200) {
+                throw InvalidQuestionException(
+                    message = questionTitle.toString(),
+                    baseMessage = R.string.question_text_long
+                )
+            }
+            if (questionTitle.lines().size > 3) {
+                throw InvalidQuestionException(
+                    message = questionTitle.toString(),
+                    baseMessage = R.string.question_lines_long
+                )
+            }
+
+        }
+
+        val questionContent = question.questionContent
+        if(questionContent != null){
+            if (questionContent.length > 200) {
+                throw InvalidQuestionException(
+                    message = questionContent.toString(),
+                    baseMessage = R.string.question_text_long
+                )
+            }
+            if (questionContent.lines().size > 3) {
+                throw InvalidQuestionException(
+                    message = questionContent.toString(),
+                    baseMessage = R.string.question_lines_long
+                )
             }
         }
 
-        if(question.questionContent != null){
-            if(question.answerTitle.isNullOrBlank()){
-                question.answerTitle = null
-            }else {
-                if (question.questionContent?.length!! > 200) {
-                    throw InvalidQuestionException("too long, max 200 chars, ${question.questionContent}")
-                }
-                if (question.questionContent?.lines()?.size!! > 3) {
-                    throw InvalidQuestionException("too many lines, max 3 lines, ${question.questionContent}")
-                }
-            }
-        }
 
         repository.updateQuestion(question)
         wearableUseCases.syncQuestion(question)

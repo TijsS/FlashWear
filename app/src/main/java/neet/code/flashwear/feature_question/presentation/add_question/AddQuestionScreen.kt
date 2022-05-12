@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -31,12 +32,16 @@ fun AddQuestionScreen(
     val questionState = viewModel.questionState.value
     val scaffoldState = rememberScaffoldState()
 
+    val context = LocalContext.current
+
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when(event) {
                 is AddQuestionViewModel.UiEvent.ShowSnackbar -> {
                     scope.launch {
-                        showSnackbar(event.message, SnackbarDuration.Short)
+                        showSnackbar(context.getString(event.baseMessage).replace("###", event.message)
+                            , SnackbarDuration.Short
+                        )
                     }
                 }
                 is AddQuestionViewModel.UiEvent.SaveQuestion -> {

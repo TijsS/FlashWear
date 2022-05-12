@@ -12,4 +12,4 @@ data class Deck(
     @ColumnInfo(name = "created") val created: Long = System.currentTimeMillis(),
     )
 
-class InvalidDeckException(message: String): Exception(message)
+class InvalidDeckException(message: Int): Exception(message.toString())

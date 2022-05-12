@@ -2,15 +2,13 @@ package neet.code.flashwear.feature_deck.domain.use_case
 
 import androidx.activity.ComponentActivity
 import dagger.hilt.android.AndroidEntryPoint
+import neet.code.flashwear.R
 import neet.code.flashwear.feature_deck.domain.model.Deck
 import neet.code.flashwear.feature_deck.domain.model.InvalidDeckException
 import neet.code.flashwear.feature_deck.domain.repository.DeckRepository
 import neet.code.flashwear.feature_learn_session.domain.model.LearnSession
 import neet.code.flashwear.feature_learn_session.domain.use_case.LearnSessionUseCases
-import neet.code.flashwear.feature_question.domain.use_case.QuestionsUseCases
-import neet.code.flashwear.feature_wearable.SyncDecks
 import neet.code.flashwear.feature_wearable.WearableUseCases
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddDeck(
@@ -22,10 +20,10 @@ class AddDeck(
     @Throws(InvalidDeckException::class)
     suspend operator fun invoke(deck: Deck) {
         if(deck.name.isBlank()){
-            throw InvalidDeckException("Name of deck can not be empty")
+            throw InvalidDeckException(R.string.deck_title_empty)
         }
-        if(deck.name.length > 36){
-            throw InvalidDeckException("Name of deck is too long")
+        if(deck.name.length > 40){
+            throw InvalidDeckException(R.string.deck_title_too_long)
         }
         val deckId = repository.insertDeck(deck)
         learnSessionUseCases.startLearnSession(

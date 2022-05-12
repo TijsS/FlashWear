@@ -1,11 +1,9 @@
 package neet.code.flashwear.feature_deck.domain.use_case
 
-import android.util.Log
 import neet.code.flashwear.feature_deck.domain.repository.DeckRepository
 import neet.code.flashwear.feature_learn_session.domain.use_case.LearnSessionUseCases
 import neet.code.flashwear.feature_question.domain.repository.QuestionRepository
 import neet.code.flashwear.feature_wearable.WearableUseCases
-import java.lang.Exception
 
 class DeleteDeck (private val repository: DeckRepository,
                   private val questionRepository: QuestionRepository,

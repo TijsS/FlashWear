@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalOf
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,6 +23,7 @@ import neet.code.flashwear.feature_deck.presentation.view_deck.components.Delete
 import neet.code.flashwear.feature_deck.presentation.view_deck.components.FloatingMenuButton
 import neet.code.flashwear.feature_deck.presentation.view_deck.components.ProgressTab
 import neet.code.flashwear.feature_deck.presentation.view_deck.components.QuestionsTab
+import javax.annotation.meta.When
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -35,12 +37,15 @@ fun ViewDeckScreen(
     val scope = rememberCoroutineScope()
     val viewDeckState = viewModel.viewDeckState.value
 
+    val context = LocalContext.current
+
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when(event) {
                 is ViewDeckViewModel.UiEvent.ShowSnackbar -> {
                     showSnackbar(
-                        event.message, SnackbarDuration.Short
+                        context.getString(event.baseMessage).replace("###", event.message)
+                        , SnackbarDuration.Short
                     )
                 }
             }
@@ -80,8 +85,15 @@ fun ViewDeckScreen(
                     .clickable(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() }
-                    ){
-                    viewModel.onEvent(ViewDeckEvent.CloseDeleteBox)
+                    ) {
+                        when{
+                            viewDeckState.showDeleteDeckBox -> {
+                                viewModel.onEvent(ViewDeckEvent.CloseDeleteBox)
+                            }
+                            viewDeckState.questionIsHeldForDelete -> {
+                                viewModel.onEvent(ViewDeckEvent.ToggleDeleteQuestion)
+                            }
+                        }
                     }
                 ) {
                     if (viewDeckState.categories.isNotEmpty()) {

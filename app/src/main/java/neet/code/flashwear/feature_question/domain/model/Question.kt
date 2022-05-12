@@ -21,4 +21,4 @@ data class Question(
     }
 }
 
-class InvalidQuestionException(message: String): Exception(message)
+class InvalidQuestionException(message: String = "", baseMessage: Int): Exception("$message|$baseMessage")

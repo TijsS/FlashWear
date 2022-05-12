@@ -42,6 +42,7 @@ fun FloatingMenuButton(
     val context = LocalContext.current
     val csvImportFailedMsgStringResource = stringResource(R.string.csv_import_fail)
     val csvExportFailedMsgStringResource = stringResource(R.string.csv_export_fail)
+    val csvExportedMsgStringResource = stringResource(R.string.exported)
 
     val pickFileLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.OpenDocument()
@@ -94,7 +95,7 @@ fun FloatingMenuButton(
                 }
             }
             showSnackbar(
-                "Exported", SnackbarDuration.Short
+                csvExportedMsgStringResource, SnackbarDuration.Short
             )
         }else{
             showSnackbar(
@@ -158,7 +159,7 @@ fun FloatingMenuButton(
                     onClick = {
                         viewModel.onEvent(ViewDeckEvent.SyncWithWearable)
                         ViewDeckViewModel.UiEvent.ShowSnackbar(
-                            message = "synced"
+                            baseMessage = R.string.synced
                         )
                     },
                     text = stringResource(R.string.sync),

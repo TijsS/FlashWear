@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import neet.code.flashwear.R
 import neet.code.flashwear.feature_deck.domain.use_case.DecksUseCases
 import neet.code.flashwear.feature_deck.domain.util.DeckOrder
 import neet.code.flashwear.feature_deck.domain.util.OrderType
@@ -67,10 +68,9 @@ class DeckViewModel @Inject constructor(
             is DecksEvent.SyncWithWearable -> {
                 viewModelScope.launch {
                     wearableUseCases.syncDecks(hardSync = true)
-
                     _eventFlow.emit(
                         UiEvent.ShowSnackbar(
-                            "Synced"
+                            R.string.synced
                         )
                     )
                 }
@@ -105,6 +105,6 @@ class DeckViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data class ShowSnackbar(val message: String): UiEvent()
+        data class ShowSnackbar(val message: Int): UiEvent()
     }
 }

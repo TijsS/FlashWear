@@ -5,6 +5,8 @@
     <string name="add_deck">Voeg toe</string>
     <string name="add_question">Voeg toe</string>
     <string name="update_question">pas aan</string>
+    <string name="updated_question">update</string>
+    <string name="updated_question_error">updaten niet gelukt</string>
     <string name="deck_title">Deck titel</string>
     <string name="decks">Decks</string>
     <string name="settings">Settings</string>
@@ -13,7 +15,6 @@
     <string name="no_questions_message">Voeg een vraag toe om te beginnen met leren!</string>
     <string name="view">Kijk</string>
     <string name="learn">Oefen</string>
-    <string name="sync">Sync</string>
     <string name="add">Voeg toe</string>
     <string name="show">Laat zien</string>
     <string name="delete">Verwijder</string>
@@ -24,13 +25,9 @@
     <string name="questions">Vragen</string>
     <string name="ascending">Toenemend</string>
     <string name="descending">Afnemend</string>
-    <string name="export">Exporteer</string>
-    <string name="importText">Importeer</string>
     <string name="menu">Menu</string>
     <string name="decks_menu">Decks menu</string>
     <string name="sort_options">Sorteer opties</string>
-    <string name="csv_import_fail">Importeren mislukt</string>
-    <string name="csv_export_fail">Exporteren mislukt</string>
     <string name="question_deleted_message">Vraag verwijderd</string>
     <string name="question_deleted_action_message">ongedaan maken</string>
     <string name="incorrect">Fout</string>
@@ -47,4 +44,24 @@
     <string name="new_questions">Nieuwe vragen</string>
     <string name="revise">Herhalen</string>
     <string name="random">Random</string>
+    <string name="dismiss">Negeer</string>
+    <string name="question_text_long">Te lang, max 200 characters, ###</string>
+    <string name="question_lines_long">Te veel regels, max 3, ###</string>
+    <string name="question_text_long_sub">Te lang, max 100 characters, ###</string>
+    <string name="question_lines_long_sub">Te veel regels, max 2, ###</string>
+    <string name="csv_import_fail">Importeren mislukt</string>
+    <string name="csv_export_fail">Exporteren mislukt</string>
+    <string name="importText">Importeer</string>
+    <string name="export">Exporteer</string>
+    <string name="exported">geëxporteerd</string>
+    <string name="imported">### vragen geimporteerd</string>
+    <string name="delete_warning">Verwijderen is permanent, weet u het zeker?</string>
+    <string name="confirm">ja</string>
+    <string name="sync">Synchroniseer</string>
+    <string name="synced">Gesynchroniseerd</string>
+    <string name="deleted_deck">Deck verwijderd</string>
+    <string name="deck_title_too_long">Titel is te lang</string>
+    <string name="deck_title_empty">Geef een titel</string>
+    <string name="deck_general_error">Kon deck niet aanmaken</string>
+
 </resources>

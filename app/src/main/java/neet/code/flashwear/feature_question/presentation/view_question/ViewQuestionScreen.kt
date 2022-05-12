@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
@@ -32,13 +33,17 @@ fun ViewQuestionScreen (
     val scope = rememberCoroutineScope()
     val questionState = viewModel.questionState.value
     val scaffoldState = rememberScaffoldState()
+    val context = LocalContext.current
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when(event) {
                 is ViewQuestionViewModel.UiEvent.ShowSnackbar -> {
                     scope.launch {
-                        showSnackbar(event.message, SnackbarDuration.Short)
+                        showSnackbar(
+                            context.getString(event.baseMessage).replace("###", event.message),
+                            SnackbarDuration.Short
+                        )
                     }
                 }
                 is ViewQuestionViewModel.UiEvent.UpdateQuestion -> {

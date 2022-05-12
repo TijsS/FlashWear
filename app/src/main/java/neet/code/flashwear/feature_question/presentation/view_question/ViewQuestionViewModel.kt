@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import neet.code.flashwear.R
 import neet.code.flashwear.Screen
 import neet.code.flashwear.feature_deck.presentation.add_deck.AddDeckViewModel
 import neet.code.flashwear.feature_question.domain.model.InvalidQuestionException
@@ -88,18 +89,28 @@ class ViewQuestionViewModel @Inject constructor(
                         }
                         _eventFlow.emit(
                             UiEvent.ShowSnackbar(
-                                message = "updated question"
+                                baseMessage = R.string.updated_question
                             )
                         )
                         _eventFlow.emit(
                             UiEvent.UpdateQuestion
                         )
                     } catch(e: InvalidQuestionException) {
-                        _eventFlow.emit(
-                            UiEvent.ShowSnackbar(
-                                message = e.message ?: "Couldn't update question"
+                        val exception = e.message?.split("|")
+                        if (exception != null) {
+                            _eventFlow.emit(
+                                UiEvent.ShowSnackbar(
+                                    message = exception[0],
+                                    baseMessage = exception[1].toInt(),
+                                )
                             )
-                        )
+                        }else{
+                            _eventFlow.emit(
+                                UiEvent.ShowSnackbar(
+                                    baseMessage = R.string.updated_question_error,
+                                )
+                            )
+                        }
                     }
                 }
             }
@@ -107,7 +118,7 @@ class ViewQuestionViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data class ShowSnackbar(val message: String): UiEvent()
+        data class ShowSnackbar(val message: String = "", val baseMessage: Int): UiEvent()
         object UpdateQuestion: UiEvent()
     }
 }

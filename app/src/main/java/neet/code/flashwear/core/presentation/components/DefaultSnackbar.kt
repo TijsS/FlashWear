@@ -1,6 +1,6 @@
 package neet.code.flashwear.core.presentation.components
 
-import android.util.Log
+import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -8,7 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
@@ -53,14 +53,15 @@ fun DefaultSnackbar(
 class SnackbarDemoAppState(
     val scaffoldState: ScaffoldState,
     val snackbarScope: CoroutineScope,
-    val navController: NavHostController
+    val navController: NavHostController,
+    val context: Context
 ) {
-    fun showSnackbar(message: String, actionLabel: String, duration: SnackbarDuration = SnackbarDuration.Long) {
+    fun showSnackbar(message: String, actionLabel: Int, duration: SnackbarDuration = SnackbarDuration.Long) {
         snackbarScope.launch {
             scaffoldState.snackbarHostState.showSnackbar(
                 message = message,
                 duration = duration,
-                actionLabel = actionLabel
+                actionLabel = context.getString(actionLabel)
             )
         }
     }
@@ -68,6 +69,7 @@ class SnackbarDemoAppState(
 
 @Composable
 fun rememberSnackbarDemoAppState(
+    context: Context,
     scaffoldState: ScaffoldState = rememberScaffoldState(
         snackbarHostState = remember {
             SnackbarHostState()
@@ -76,7 +78,9 @@ fun rememberSnackbarDemoAppState(
     navController: NavHostController = rememberNavController(),
     snackbarScope: CoroutineScope = rememberCoroutineScope()
 ) = remember(scaffoldState, navController, snackbarScope) {
+
     SnackbarDemoAppState(
+        context = context,
         scaffoldState = scaffoldState,
         navController = navController,
         snackbarScope = snackbarScope

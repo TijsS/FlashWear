@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.material.SnackbarDuration
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import neet.code.flashwear.R
 import neet.code.flashwear.feature_deck.domain.use_case.DecksUseCases
 import neet.code.flashwear.feature_learn_session.domain.use_case.LearnSessionUseCases
 import neet.code.flashwear.feature_progress.presentation.progress.ProgressGraph
@@ -118,7 +120,7 @@ class ViewDeckViewModel @Inject constructor(
                     decksUseCases.deleteDeck(_viewDeckState.value.deckId)
                     _eventFlow.emit(
                         UiEvent.ShowSnackbar(
-                            message = "DeletedDeck"
+                            baseMessage = R.string.deleted_deck
                         )
                     )
                 }
@@ -135,22 +137,27 @@ class ViewDeckViewModel @Inject constructor(
                         questionsUseCases.addQuestions(event.importedQuestions)
                         _eventFlow.emit(
                             UiEvent.ShowSnackbar(
-                                message =  "${event.importedQuestions.size} questions imported"
+                                message = event.importedQuestions.size.toString(),
+                                baseMessage = R.string.imported
                             )
                         )
                     }
                     catch(invalidQuestion: InvalidQuestionException){
-                        _eventFlow.emit(
-                            UiEvent.ShowSnackbar(
-                                message = "${invalidQuestion.message}",
-                                duration = SnackbarDuration.Long
+                        val exception = invalidQuestion.message?.split("|")
+                        if (exception != null){
+                            _eventFlow.emit(
+                                UiEvent.ShowSnackbar(
+                                    message = exception[0],
+                                    baseMessage = exception[1].toInt(),
+                                    duration = SnackbarDuration.Long
+                                )
                             )
-                        )
+                        }
                     }
                     catch (exception: Exception) {
                         _eventFlow.emit(
                             UiEvent.ShowSnackbar(
-                                message =  "Not able to import"
+                                baseMessage =  R.string.csv_import_fail
                             )
                         )
                     }
@@ -176,7 +183,7 @@ class ViewDeckViewModel @Inject constructor(
 
                     _eventFlow.emit(
                         UiEvent.ShowSnackbar(
-                            message = "Synced"
+                            baseMessage = R.string.synced
                         )
                     )
                 }
@@ -230,7 +237,7 @@ class ViewDeckViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data class ShowSnackbar(val message: String, val duration: SnackbarDuration = SnackbarDuration.Short): UiEvent()
+        data class ShowSnackbar(val message: String = "", val baseMessage: Int, val duration: SnackbarDuration = SnackbarDuration.Short): UiEvent()
     }
 }
 
