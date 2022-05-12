@@ -30,7 +30,7 @@ fun DeckGraphSelectButtons(viewModel: ViewDeckViewModel) {
                 TextButton(
                     onClick = { viewModel.onEvent(ViewDeckEvent.SelectProgressGraph(option)) },
                     modifier = Modifier.padding(4.dp),
-                    colors = buttonColors(containerColor = if (viewModel.viewDeckState.value.selectedProgressGraph == option) MaterialTheme.colors.primary else if (isSystemInDarkTheme()) MaterialTheme.colors.surface else MaterialTheme.colors.onPrimary)
+                    colors = buttonColors(containerColor = if (viewModel.viewDeckState.value.selectedProgressGraph == option) MaterialTheme.colors.primary else if (isSystemInDarkTheme()) MaterialTheme.colors.surface else Color.Black)
                 ) {
                     Text(
                         text = option.name,
@@ -48,7 +48,7 @@ fun DeckGraphSelectButtons(viewModel: ViewDeckViewModel) {
                 TextButton(
                     onClick = { viewModel.onEvent(ViewDeckEvent.SelectedTimeScale(timeScale)) },
                     modifier = Modifier.padding(4.dp),
-                    colors = buttonColors(containerColor = if (viewModel.viewDeckState.value.selectedTimeScaleGraph == timeScale) MaterialTheme.colors.primary else if (isSystemInDarkTheme()) MaterialTheme.colors.surface else MaterialTheme.colors.onPrimary,
+                    colors = buttonColors(containerColor = if (viewModel.viewDeckState.value.selectedTimeScaleGraph == timeScale) MaterialTheme.colors.primary else if (isSystemInDarkTheme()) MaterialTheme.colors.surface else Color.Black,
                         MaterialTheme.colors.surface)
                 ) {
                     Text(
