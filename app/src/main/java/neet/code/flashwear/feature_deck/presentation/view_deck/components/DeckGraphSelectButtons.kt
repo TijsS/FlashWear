@@ -1,5 +1,6 @@
 package neet.code.flashwear.feature_deck.presentation.view_deck.components
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.ButtonDefaults.buttonColors
@@ -14,6 +15,7 @@ import neet.code.flashwear.feature_deck.presentation.view_deck.ViewDeckEvent
 import neet.code.flashwear.feature_deck.presentation.view_deck.ViewDeckViewModel
 import neet.code.flashwear.feature_progress.presentation.progress.ProgressGraph
 import neet.code.flashwear.feature_progress.presentation.progress.TimeScaleGraph
+import neet.code.flashwear.ui.theme.DarkBlueGray
 
 @Composable
 fun DeckGraphSelectButtons(viewModel: ViewDeckViewModel) {
@@ -28,7 +30,7 @@ fun DeckGraphSelectButtons(viewModel: ViewDeckViewModel) {
                 TextButton(
                     onClick = { viewModel.onEvent(ViewDeckEvent.SelectProgressGraph(option)) },
                     modifier = Modifier.padding(4.dp),
-                    colors = buttonColors(containerColor = if (viewModel.viewDeckState.value.selectedProgressGraph == option) MaterialTheme.colors.primary else MaterialTheme.colors.surface)
+                    colors = buttonColors(containerColor = if (viewModel.viewDeckState.value.selectedProgressGraph == option) MaterialTheme.colors.primary else if (isSystemInDarkTheme()) MaterialTheme.colors.surface else MaterialTheme.colors.onPrimary)
                 ) {
                     Text(
                         text = option.name,
@@ -46,7 +48,8 @@ fun DeckGraphSelectButtons(viewModel: ViewDeckViewModel) {
                 TextButton(
                     onClick = { viewModel.onEvent(ViewDeckEvent.SelectedTimeScale(timeScale)) },
                     modifier = Modifier.padding(4.dp),
-                    colors = buttonColors(containerColor = if (viewModel.viewDeckState.value.selectedTimeScaleGraph == timeScale) MaterialTheme.colors.primary else MaterialTheme.colors.surface)
+                    colors = buttonColors(containerColor = if (viewModel.viewDeckState.value.selectedTimeScaleGraph == timeScale) MaterialTheme.colors.primary else if (isSystemInDarkTheme()) MaterialTheme.colors.surface else MaterialTheme.colors.onPrimary,
+                        MaterialTheme.colors.surface)
                 ) {
                     Text(
                         text = timeScale.name,
